@@ -1,0 +1,25 @@
+.petroglyph-item {
+  display: block;
+  border: solid 2px #e1e1e1;
+  padding: 0 15px 15px 15px;
+  margin-bottom: 25px;
+  color: #000; }
+  .petroglyph-item:hover {
+    text-decoration: none;
+    border: solid 2px #7288e1; }
+
+.poster {
+  margin-right: 20px;
+  margin-bottom: 15px;
+  max-width: 50%; }
+
+@media (max-width: 768px) {
+  .poster {
+    margin-right: 0;
+    max-width: 100%; } }
+@media (min-width: 769px) and (max-width: 991px) {
+  .poster {
+    margin-right: 0;
+    max-width: 100%; } }
+
+/*# sourceMappingURL=petroglyph.css.map */
