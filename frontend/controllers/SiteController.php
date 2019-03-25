@@ -165,6 +165,7 @@ class SiteController extends BaseController
 //    public function actionResetPassword($token)
 //    {
 //        try {
+//        try {
 //            $model = new ResetPasswordForm($token);
 //        } catch (InvalidParamException $e) {
 //            throw new BadRequestHttpException($e->getMessage());
