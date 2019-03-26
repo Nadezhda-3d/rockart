@@ -51,7 +51,7 @@ class UserController extends BaseController
             if ($model->save()) {
                 \Yii::$app->session->setFlash('success', "Данные внесены");
 
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'id' => $model->model->id]);
             }
 
             \Yii::$app->session->setFlash('error', "Не удалось сохранить изменения<br>" . print_r($model->errors, true));

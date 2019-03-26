@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 <?php $form = ActiveForm::begin(); ?>
     <div class="row">
         <div class="col-xs-12 col-md-6">
-            <?= $form->field($model, 'status')->checkbox() ?>
+            <?= $form->field($model, 'status')->checkbox(['checked' => ($model->status != null)]) ?>
             <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
             <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
             <?= $form->field($model, 'password')->passwordInput() ?>
