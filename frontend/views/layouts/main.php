@@ -11,6 +11,7 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use frontend\components\Lang;
+use frontend\widgets\AuthPanel;
 
 AppAsset::register($this);
 ?>
@@ -53,19 +54,10 @@ AppAsset::register($this);
     if (Yii::$app->user->can('manager')) {
         $menuItems[] = ['label' => Yii::t('app', 'Management'), 'url' => ['manager/index']];
     }
-    //    if (Yii::$app->user->isGuest) {
-    //        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-    //        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    //    } else {
-    //        $menuItems[] = '<li>'
-    //            . Html::beginForm(['/site/logout'], 'post')
-    //            . Html::submitButton(
-    //                'Logout (' . Yii::$app->user->identity->username . ')',
-    //                ['class' => 'btn btn-link logout']
-    //            )
-    //            . Html::endForm()
-    //            . '</li>';
-    //    }
+
+    if (Yii::$app->user->can('admin')) {
+        $menuItems[] = ['label' => Yii::t('app', 'Admin panel'), 'url' => '/admin'];
+    }
     ?>
 
     <?php
@@ -85,13 +77,27 @@ AppAsset::register($this);
         'encodeLabels' => false,
     ]) ?>
 
+    <?= Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-right'],
+        'items' => ['label' => (Yii::$app->user->isGuest ?
+            '<li>' . AuthPanel::widget() . '</li>' :
+            '<li>'
+            . Html::beginForm(['/site/logout'], 'post')
+            . Html::submitButton(
+                Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
+                ['class' => 'btn btn-primary logout', 'style' => 'margin-top: 10px; margin-left: 10px;']
+            )
+            . Html::endForm()
+            . '</li>'
+        )],
+        'encodeLabels' => false,
+    ]);
+    ?>
+
     <?php NavBar::end(); ?>
 
-
     <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
+        <?= Breadcrumbs::widget(['links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>

@@ -95,12 +95,12 @@ class PetroglyphImage extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'name' => 'Название',
-            'name_en' => 'Название на английском',
-            'description' => 'Описание',
-            'description_en' => 'Описание на английском',
-            'file' => 'Изображение',
-            'fileImage' => 'Изображение',
+            'name' => Yii::t('model', 'Name in Russian'),
+            'name_en' => Yii::t('model', 'Name in English'),
+            'description' => Yii::t('model', 'Description in Russian'),
+            'description_en' => Yii::t('model', 'Description in English'),
+            'file' => Yii::t('model', 'Image'),
+            'fileImage' => Yii::t('model', 'Image'),
         ];
     }
 

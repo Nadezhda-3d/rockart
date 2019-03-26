@@ -115,11 +115,9 @@ class UserForm extends Model
             $model->email = $this->email;
             $model->status = $this->status ? 10 : 0;
 
-            $model->setPassword($this->password);
-            $model->generateAuthKey();
-
             if ($this->password) {
                 $model->setPassword($this->password);
+                $model->generateAuthKey();
             }
 
             if ($model->save()) {

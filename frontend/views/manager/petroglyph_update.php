@@ -7,10 +7,10 @@
 
 use yii\helpers\Html;
 
-$this->title = 'Редактирование';
+$this->title = Yii::t('manager', 'Edit');
 $this->params['breadcrumbs'] = [
-    ['label' => 'Управление контентом', 'url' => ['/manager/index']],
-    ['label' => 'Петроглиф', 'url' => ['/manager/petroglyph']],
+    ['label' => Yii::t('manager', 'Management'), 'url' => ['/manager/index']],
+    ['label' => Yii::t('manager', 'Petroglyph'), 'url' => ['/manager/petroglyph']],
     $this->title,
 ];
 ?>

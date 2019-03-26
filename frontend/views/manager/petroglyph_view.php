@@ -11,10 +11,11 @@ use common\models\Petroglyph;
 use common\models\PetroglyphImage;
 use yii\grid\GridView;
 
-$this->title = $model->name;
+$name = 'name_' . Yii::$app->language;
+$this->title = $model->$name;
 $this->params['breadcrumbs'] = [
-    ['label' => 'Управление контентом', 'url' => ['/manager/index']],
-    ['label' => 'Петроглиф', 'url' => ['/manager/petroglyph']],
+    ['label' => Yii::t('manager', 'Management'), 'url' => ['/manager/index']],
+    ['label' => Yii::t('manager', 'Petroglyph'), 'url' => ['/manager/petroglyph']],
     $this->title,
 ];
 ?>
@@ -22,14 +23,14 @@ $this->params['breadcrumbs'] = [
     <h1><?= Html::encode($this->title) ?></h1>
 
     <div class="clearfix">
-        <?= Html::a('Просмотр', ['petroglyph/view', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('manager', 'View'), ['petroglyph/view', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
         <div class="pull-right">
-            <?= Html::a('Редактировать', ['manager/petroglyph-update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a(Yii::t('manager', 'Edit'), ['manager/petroglyph-update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
             <?php if (empty($model->deleted)): ?>
-                <?= Html::a('Удалить', ['manager/petroglyph-delete', 'id' => $model->id], [
+                <?= Html::a(Yii::t('manager', 'Delete'), ['manager/petroglyph-delete', 'id' => $model->id], [
                     'class' => 'btn btn-danger',
                     'data' => [
-                        'confirm' => 'Вы действительно хотите удалить?',
+                        'confirm' => Yii::t('manager', 'Do you really want to delete?'),
                         'method' => 'post',
                     ],
                 ]) ?>
@@ -71,7 +72,7 @@ $this->params['breadcrumbs'] = [
             'attribute' => 'public',
             'format' => 'text',
             'value' => function ($model) {
-                return $model->public ? 'Опубликован' : 'Скрыт';
+                return $model->public ? Yii::t('manager', 'Public') : Yii::t('manager', 'Hide');
             }
         ],
         [
@@ -96,10 +97,10 @@ $this->params['breadcrumbs'] = [
 
     <div class="clearfix"></div>
 
-    <h3>Дополнительные изображения</h3>
+    <h3><?= Yii::t('manager', 'Additional Images') ?></h3>
 
     <div class="text-right">
-        <?= Html::a('Добавить изображение', ['manager/petroglyph-image-create', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('manager', 'Add Image'), ['manager/petroglyph-image-create', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
     </div>
 
     <br>
@@ -138,7 +139,7 @@ $this->params['breadcrumbs'] = [
                         ['manager/petroglyph-image-delete', 'id' => $model->id],
                         [
                             'data-pjax' => "0",
-                            'data-confirm' => "Вы уверены, что хотите удалить этот элемент?",
+                            'data-confirm' => Yii::t('manager', 'Do you really want to delete?'),
                             'data-method' => "post"
                         ]);
                 }

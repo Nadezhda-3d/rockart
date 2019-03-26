@@ -39,16 +39,16 @@ use mihaildev\ckeditor\CKEditor;
                 ]) ?>
             <?= $form->field($model, 'lat') ?>
             <?= $form->field($model, 'lng') ?>
-            <?= $form->field($model, 'method_id')->dropDownList($methods, ['prompt'=>'Выбрать...']) ?>
-            <?= $form->field($model, 'culture_id')->dropDownList($cultures, ['prompt'=>'Выбрать...']) ?>
-            <?= $form->field($model, 'epoch_id')->dropDownList($epochs, ['prompt'=>'Выбрать...']) ?>
+            <?= $form->field($model, 'method_id')->dropDownList($methods, ['prompt'=>Yii::t('manager', 'Select...')]) ?>
+            <?= $form->field($model, 'culture_id')->dropDownList($cultures, ['prompt'=>Yii::t('manager', 'Select...')]) ?>
+            <?= $form->field($model, 'epoch_id')->dropDownList($epochs, ['prompt'=>Yii::t('manager', 'Select...')]) ?>
             <?= $form->field($model, 'public')->checkbox() ?>
             <?= $form->field($model, 'fileImage')->fileInput() ?>
 
         </div>
         <div class="col-xs-12 col-md-6 text-right">
             <div class="form-group">
-                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
+                <?= Html::submitButton(Yii::t('manager', 'Save'), ['class' => 'btn btn-primary']) ?>
             </div>
         </div>
     </div>

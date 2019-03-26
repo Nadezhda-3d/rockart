@@ -118,18 +118,18 @@ class Petroglyph extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'name' => 'Название',
-            'name_en' => 'Название на английском',
-            'description' => 'Описание',
-            'description_en' => 'Описание на английском',
-            'lat' => 'Широта',
-            'lng' => 'Долгота',
-            'image' => 'Изображение',
-            'fileImage' => 'Изображение',
-            'method_id' => 'Метод',
-            'culture_id' => 'Культура',
-            'epoch_id' => 'Эпоха',
-            'public' => 'Публичный доступ',
+            'name' => Yii::t('model', 'Name in Russian'),
+            'name_en' => Yii::t('model', 'Name in English'),
+            'description' => Yii::t('model', 'Description in Russian'),
+            'description_en' => Yii::t('model', 'Description in English'),
+            'lat' => Yii::t('model', 'Latitude'),
+            'lng' => Yii::t('model', 'Longitude'),
+            'image' => Yii::t('model', 'Image'),
+            'fileImage' => Yii::t('model', 'Image'),
+            'method_id' => Yii::t('model', 'Method'),
+            'culture_id' => Yii::t('model', 'Culture'),
+            'epoch_id' => Yii::t('model', 'Epoch'),
+            'public' => Yii::t('model', 'Published'),
         ];
     }
 
