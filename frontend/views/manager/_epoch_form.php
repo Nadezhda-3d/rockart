@@ -19,7 +19,7 @@ use common\models\Culture;
         </div>
         <div class="col-xs-12 col-md-6 text-right">
             <div class="form-group">
-                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
+                <?= Html::submitButton(Yii::t('manager', 'Save'), ['class' => 'btn btn-primary']) ?>
             </div>
         </div>
     </div>

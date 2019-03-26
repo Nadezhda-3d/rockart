@@ -8,10 +8,11 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-$this->title = $model->name;
+$name = 'name_' . Yii::$app->language;
+$this->title = $model->$name;
 $this->params['breadcrumbs'] = [
-    ['label' => 'Управление контентом', 'url' => ['/manager/index']],
-    ['label' => 'Культура', 'url' => ['/manager/culture']],
+    ['label' => Yii::t('manager', 'Management'), 'url' => ['/manager/index']],
+    ['label' => Yii::t('manager', 'Culture'), 'url' => ['/manager/culture']],
     $this->title,
 ];
 ?>
@@ -20,11 +21,11 @@ $this->params['breadcrumbs'] = [
 
 
     <div class="text-right">
-        <?= Html::a('Редактировать', ['manager/culture-update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Удалить', ['manager/culture-delete', 'id' => $model->id], [
+        <?= Html::a(Yii::t('manager', 'Edit'), ['manager/culture-update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('manager', 'Delete'), ['manager/culture-delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Вы действительно хотите удалить?',
+                'confirm' => Yii::t('manager', 'Do you really want to delete?'),
                 'method' => 'post',
             ],
         ]) ?>

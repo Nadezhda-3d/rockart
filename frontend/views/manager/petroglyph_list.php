@@ -7,9 +7,9 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use common\models\Petroglyph;
 
-$this->title = 'Петроглиф';
+$this->title = Yii::t('manager', 'Petroglyph');
 $this->params['breadcrumbs'] = [
-    ['label' => 'Управление контентом', 'url' => ['/manager/index']],
+    ['label' => Yii::t('manager', 'Management'), 'url' => ['/manager/index']],
     $this->title,
 ];
 ?>
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'] = [
 <h1><?= Html::encode($this->title) ?></h1>
 
 <div class="text-right">
-    <?= Html::a('Добавить', ['manager/petroglyph-create'], ['class' => 'btn btn-primary'])?>
+    <?= Html::a(Yii::t('manager', 'Add'), ['manager/petroglyph-create'], ['class' => 'btn btn-primary'])?>
 </div>
 
 <br>
@@ -56,7 +56,7 @@ $this->params['breadcrumbs'] = [
             'attribute' => 'public',
             'format' => 'text',
             'value' => function ($model) {
-                return $model->public ? 'Опубликован' : 'Скрыт';
+                return $model->public ? Yii::t('manager', 'Public') : Yii::t('manager', 'Hide');
             }
         ],
         [
@@ -86,7 +86,7 @@ $this->params['breadcrumbs'] = [
                         ['manager/petroglyph-delete', 'id' => $model->id],
                         [
                             'data-pjax' => "0",
-                            'data-confirm' => "Вы уверены, что хотите удалить этот элемент?",
+                            'data-confirm' => Yii::t('manager', 'Do you really want to delete?'),
                             'data-method' => "post"
                         ]);
                 }

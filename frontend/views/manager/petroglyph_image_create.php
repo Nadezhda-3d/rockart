@@ -1,16 +1,16 @@
 <?php
 
-/* @var $this yii\web\View */
+/*Yii::t('manager', 'Epoch')@var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 
 /* @var $model \common\models\PetroglyphImage */
 
 use yii\helpers\Html;
 
-$this->title = 'Добавление изображения';
+$this->title = Yii::t('manager', 'Add Image');
 $this->params['breadcrumbs'] = [
-    ['label' => 'Управление контентом', 'url' => ['/manager/index']],
-    ['label' => 'Петроглиф', 'url' => ['/manager/petroglyph']],
+    ['label' => Yii::t('manager', 'Management'), 'url' => ['/manager/index']],
+    ['label' => Yii::t('manager', 'Petroglyph'), 'url' => ['/manager/petroglyph']],
     ['label' => $petroglyph->name, 'url' => ['/manager/petroglyph-view', 'id' => $petroglyph->id]],
     $this->title,
 ];

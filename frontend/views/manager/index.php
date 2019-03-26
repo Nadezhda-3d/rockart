@@ -4,7 +4,7 @@
 
 use yii\helpers\Html;
 
-$this->title = 'Управление контентом';
+$this->title = Yii::t('manager', 'Management');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -12,15 +12,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <ul class="list-group">
     <li class="list-group-item">
-        <?= Html::a('Культура', ['manager/culture']) ?>
+        <?= Html::a(Yii::t('manager', 'Culture'), ['manager/culture']) ?>
     </li>
     <li class="list-group-item">
-        <?= Html::a('Эпоха', ['manager/epoch']) ?>
+        <?= Html::a(Yii::t('manager', 'Epoch'), ['manager/epoch']) ?>
     </li>
     <li class="list-group-item">
-        <?= Html::a('Метод', ['manager/method']) ?>
+        <?= Html::a(Yii::t('manager', 'Method'), ['manager/method']) ?>
     </li>
     <li class="list-group-item">
-        <?= Html::a('Петроглиф', ['manager/petroglyph']) ?>
+        <?= Html::a(Yii::t('manager', 'Petroglyph'), ['manager/petroglyph']) ?>
     </li>
 </ul>
