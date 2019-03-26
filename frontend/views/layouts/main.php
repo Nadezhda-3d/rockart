@@ -54,6 +54,10 @@ AppAsset::register($this);
     if (Yii::$app->user->can('manager')) {
         $menuItems[] = ['label' => Yii::t('app', 'Management'), 'url' => ['manager/index']];
     }
+
+    if (Yii::$app->user->can('admin')) {
+        $menuItems[] = ['label' => Yii::t('app', 'Admin panel'), 'url' => '/admin'];
+    }
     ?>
 
     <?php
