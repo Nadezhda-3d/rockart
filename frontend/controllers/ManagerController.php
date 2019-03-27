@@ -394,7 +394,7 @@ class ManagerController extends Controller
      */
     public function actionPetroglyph()
     {
-        $query = Petroglyph::find();
+        $query = Petroglyph::find()->orderBy(['created_at' => SORT_DESC]);
 
         if (!\Yii::$app->request->get('showDeleted')) {
             $query->where(['deleted' => null]);
