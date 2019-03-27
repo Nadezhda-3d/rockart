@@ -21,8 +21,14 @@ $mdCol = Yii::$app->user->can('manager') ? 3 : 4;
 
 $script = <<< JS
 
-var arr = $json_petroglyphs;
+    var arr = $json_petroglyphs,
+        map_center = '{"lat": ' + parseFloat(arr[0].lat) + ', "lng": ' + parseFloat(arr[0].lng) + '}',
+        date = new Date();
 
+    date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
+    var expires = ";expires=" + date.toUTCString();
+
+    document.cookie = "map_center=" + map_center + expires + ";path=/";
 JS;
 
 $this->registerJs($script, yii\web\View::POS_BEGIN);
