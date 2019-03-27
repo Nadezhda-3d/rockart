@@ -147,4 +147,13 @@ return array (
       '@fgh151/opengraph' => $vendorDir . '/fgh151/yii2-opengraph',
     ),
   ),
+  'thamtech/yii2-uuid' => 
+  array (
+    'name' => 'thamtech/yii2-uuid',
+    'version' => '1.1.1.0',
+    'alias' => 
+    array (
+      '@thamtech/uuid' => $vendorDir . '/thamtech/yii2-uuid/src',
+    ),
+  ),
 );

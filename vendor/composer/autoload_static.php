@@ -32,6 +32,10 @@ class ComposerStaticInit291da491200b021477024b0e15834d29
             'yii\\bootstrap\\' => 14,
             'yii\\' => 4,
         ),
+        't' => 
+        array (
+            'thamtech\\uuid\\' => 14,
+        ),
         'r' => 
         array (
             'rmrevin\\yii\\fontawesome\\' => 24,
@@ -88,10 +92,18 @@ class ComposerStaticInit291da491200b021477024b0e15834d29
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\BrowserKit\\' => 29,
         ),
+        'R' => 
+        array (
+            'Ramsey\\Uuid\\' => 12,
+        ),
         'P' => 
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+        ),
+        'M' => 
+        array (
+            'Moontoast\\Math\\' => 15,
         ),
         'G' => 
         array (
@@ -150,6 +162,10 @@ class ComposerStaticInit291da491200b021477024b0e15834d29
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
+        ),
+        'thamtech\\uuid\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/thamtech/yii2-uuid/src',
         ),
         'rmrevin\\yii\\fontawesome\\' => 
         array (
@@ -257,6 +273,10 @@ class ComposerStaticInit291da491200b021477024b0e15834d29
         array (
             0 => __DIR__ . '/..' . '/symfony/browser-kit',
         ),
+        'Ramsey\\Uuid\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ramsey/uuid/src',
+        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
@@ -264,6 +284,10 @@ class ComposerStaticInit291da491200b021477024b0e15834d29
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Moontoast\\Math\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/moontoast/math/src/Moontoast/Math',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (

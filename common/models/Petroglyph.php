@@ -4,6 +4,7 @@ namespace common\models;
 
 use omgdef\multilingual\MultilingualBehavior;
 use omgdef\multilingual\MultilingualQuery;
+use thamtech\uuid\helpers\UuidHelper;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\data\ActiveDataProvider;
@@ -268,5 +269,13 @@ class Petroglyph extends \yii\db\ActiveRecord
         $this->load($params);
 
         return $dataProvider;
+    }
+
+    public function beforeSave($insert)
+    {
+        if (empty($this->uuid)) {
+            $this->uuid = UuidHelper::uuid();
+        }
+        return parent::beforeSave($insert);
     }
 }
