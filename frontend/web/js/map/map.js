@@ -71,14 +71,15 @@ function initialize_markers(arr) {
         //открывает infowindows при наведении курсора мыши
         marker.addListener('mouseover', (function (marker, infowindow, info) {
             return function () {
-                var img_str = info["image"] != null ? '<div class="div-infowindow"><img class="img-infowindow" src="' + info["image"] + '"></div>' : ""
+                var img_str = info["image"] != null ? '<div class="infowindow-petroglyph"><img class="img-responsive" src="' + info["image"] + '"></div>' : ""
                 infowindow.setContent('<p>' + info["name"] + '</p>' + img_str);
                 infowindow.open(map, marker);
+                console.log(infowindow);
             }
         })(marker, infowindow, arr[i]));
         marker.addListener('mousedown', (function (marker, infowindow, info) {
             return function () {
-                var img_str = info["image"] != null ? '<div class="div-infowindow"><img class="img-infowindow" src="' + info["image"] + '"></div>' : ""
+                var img_str = info["image"] != null ? '<div class="infowindow-petroglyph"><img class="img-responsive" src="' + info["image"] + '"></div>' : ""
                 infowindow.setContent('<p>' + info["name"] + '</p>' + img_str);
                 infowindow.open(map, marker);
             }
