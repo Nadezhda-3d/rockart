@@ -36,6 +36,9 @@ class PetroglyphController extends BaseController
 
         $provider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 15,
+            ],
         ]);
 
         return $this->render('index', [
