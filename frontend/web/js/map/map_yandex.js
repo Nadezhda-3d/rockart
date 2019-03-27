@@ -72,7 +72,7 @@ function init(){
 function  initialize_markers(arr){
     var markers = [];
     for (var i =0; i<arr.length; i++) {
-        var img_str = arr[i]["image"] != null ? '<div class="div-infowindow"><img class="img-infowindow" src="' + arr[i]["image"] + '"></div>':""
+        var img_str = arr[i]["image"] != null ? '<div class="infowindow-petroglyph"><img class="img-responsive" src="' + arr[i]["image"] + '"></div>':""
         var marker = new ymaps.Placemark([ parseFloat(arr[i]["lat"]), parseFloat(arr[i]["lng"])], {
             hintContent: '<p>' + arr[i]["name"]+'</p>' + img_str
         });

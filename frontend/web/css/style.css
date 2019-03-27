@@ -15,6 +15,11 @@ body {
 .btn {
   border-radius: 0; }
 
+.infowindow-petroglyph {
+  width: 180px;
+  height: 125px;
+  overflow: hidden; }
+
 .footer {
   min-height: 60px;
   background-color: #f5f5f5;
