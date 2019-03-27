@@ -98,7 +98,7 @@ function initialize_markers(arr) {
 
     var markerClusterer = new MarkerClusterer(map, markers,
         {
-            imagePath: '/assets/js/markerclusterer/images/m',
+            imagePath: '/js/map/markerclusterer/images/m',
             maxZoom: 17,
             gridSize: 20,
             styles: null
