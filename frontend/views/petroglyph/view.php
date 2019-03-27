@@ -109,11 +109,11 @@ $mdCol = Yii::$app->user->can('manager') ? 3 : 4;
 
 <?php endif; ?>
 
+<?php if (!empty($petroglyph->images)): ?>
+
     <div class="clearfix"></div>
 
     <h3><?= Yii::t('app', 'Additional Images') ?></h3>
-
-<?php if (!empty($petroglyph->images)): ?>
     <div class="row images">
         <?php foreach ($petroglyph->images as $item): ?>
             <div class="col-xs-6 col-sm-4 col-md-3">
