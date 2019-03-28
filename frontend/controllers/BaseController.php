@@ -36,7 +36,7 @@ class BaseController extends Controller
     protected function metric()
     {
         $model = new Counter();
-        $model->ip = $_SERVER["REMOTE_ADDR"];
+        $model->ip = (isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER["REMOTE_ADDR"]);
         $model->uri = $_SERVER["REQUEST_URI"];
         $model->user_agent = $_SERVER["HTTP_USER_AGENT"];
         $model->save();
