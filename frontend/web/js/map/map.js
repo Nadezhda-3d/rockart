@@ -16,8 +16,8 @@ function initMap() {
     map = new google.maps.Map(document.getElementById('map_canvas'), {
         center: map_center,
         zoom: zoom,
-        mapTypeId: type_id
-
+        mapTypeId: type_id,
+        gestureHandling: 'greedy'
     });
 
     imageMapType = new google.maps.ImageMapType(
@@ -92,7 +92,7 @@ function initialize_markers(arr) {
         })(marker, infowindow));
         marker.addListener('click', (function (marker, infowindow, info) {
             return function () {
-                window.location.href = "petroglyph/" + info['id'];
+                window.location.href = "/petroglyph/" + info['id'];
             }
         })(marker, infowindow, arr[i]));
     }
