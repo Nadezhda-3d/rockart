@@ -29,9 +29,18 @@ $script = <<< JS
     var expires = ";expires=" + date.toUTCString();
 
     document.cookie = "map_center=" + map_center + expires + ";path=/";
+    
 JS;
 
 $this->registerJs($script, yii\web\View::POS_BEGIN);
+
+$script = <<< JS
+        
+     $('[data-toggle="tooltip"]').tooltip();
+
+JS;
+
+$this->registerJs($script, yii\web\View::POS_READY);
 
 if (Yii::$app->user->can('manager')) {
     $this->registerJsFile('/js/map/jquery.cookie.js', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
@@ -100,7 +109,21 @@ if (Yii::$app->user->can('manager')) {
         <?= Html::a(Yii::t('app', 'Edit'), ['manager/petroglyph-update', 'id' => $petroglyph->id], ['class' => 'btn btn-primary pull-right']) ?>
     <?php endif; ?>
 
-    <h1><?= Html::encode($petroglyph->name) ?></h1>
+    <h1>
+        <?= Html::encode($petroglyph->name) ?>
+    </h1>
+
+    <?php if (!empty($petroglyph->index)): ?>
+        <?= Yii::t('app', 'Index') . ': ' . $petroglyph->index ?>
+    <?php endif; ?>
+
+    <?php if (Yii::$app->user->can('manager') and !empty($petroglyph->technical_description)): ?>
+       <p>
+           <i>
+               <?= nl2br($petroglyph->technical_description) ?>
+           </i>
+       </p>
+    <?php endif; ?>
 
     <?= $petroglyph->description ?>
 
@@ -157,6 +180,24 @@ if (Yii::$app->user->can('manager')) {
     </div>
 <?php endif; ?>
 
+<?php if (!empty($petroglyph->threeD)): ?>
+
+    <div class="clearfix"></div>
+
+    <h3><?= Yii::t('app', '3D Models') ?></h3>
+    <div class="row images">
+        <?php foreach ($petroglyph->threeD as $item): ?>
+            <div class="col-xs-6 col-sm-4 col-md-3">
+                <?= Html::a($item->name, $item->url, [
+                    'class' => 'three-d fancybox',
+                    'rel' => 'petroglyphImages',
+                    'data-fancybox-type' => 'iframe',
+                ]) ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
 <?php if (Yii::$app->user->can('manager')): ?>
 
     <div class="clearfix"></div>
@@ -174,5 +215,13 @@ if (Yii::$app->user->can('manager')) {
 
 
     <div id="map_canvas" style="width:100%; height:600px; float:left; margin-right: 20px;"></div>
+
+<?php endif; ?>
+
+<?php if (!empty($petroglyph->publication)): ?>
+
+    <div class="clearfix"></div>
+    <h3><?= Yii::t('app', 'Publications') ?></h3>
+    <?= $petroglyph->publication ?>
 
 <?php endif; ?>

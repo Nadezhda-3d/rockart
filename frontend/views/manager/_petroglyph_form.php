@@ -44,6 +44,30 @@ use mihaildev\ckeditor\CKEditor;
             <?= $form->field($model, 'epoch_id')->dropDownList($epochs, ['prompt'=>Yii::t('manager', 'Select...')]) ?>
             <?= $form->field($model, 'public')->checkbox() ?>
             <?= $form->field($model, 'fileImage')->fileInput() ?>
+            <?= $form->field($model, 'index') ?>
+            <?= $form->field($model, 'technical_description')->textarea(['row' => 5]) ?>
+            <?= $form->field($model, 'publication')->widget(CKEditor::className(),
+                [
+                    'editorOptions' => [
+                        'preset' => 'standard',
+                        'inline' => false,
+                    ],
+                    'options' => [
+                        'allowedContent' => true,
+                    ],
+
+                ]) ?>
+            <?= $form->field($model, 'publication_en')->widget(CKEditor::className(),
+                [
+                    'editorOptions' => [
+                        'preset' => 'standard',
+                        'inline' => false,
+                    ],
+                    'options' => [
+                        'allowedContent' => true,
+                    ],
+
+                ]) ?>
 
         </div>
         <div class="col-xs-12 col-md-6 text-right">
