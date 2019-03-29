@@ -117,15 +117,12 @@ if (Yii::$app->user->can('manager')) {
         <?= Yii::t('app', 'Index') . ': ' . $petroglyph->index ?>
     <?php endif; ?>
 
-    <?php if (Yii::$app->user->can('manager') and !empty($petroglyph->technical_description)): ?>
-       <p>
-           <i>
-               <?= nl2br($petroglyph->technical_description) ?>
-           </i>
-       </p>
-    <?php endif; ?>
-
     <?= $petroglyph->description ?>
+
+    <?php if (!empty($petroglyph->technical_description)): ?>
+        <h3><?= Yii::t('app', 'Technical description') ?></h3>
+        <?= $petroglyph->technical_description ?>
+    <?php endif; ?>
 
     <div class="clearfix"></div>
 
