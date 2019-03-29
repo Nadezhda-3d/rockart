@@ -4,17 +4,21 @@
 /* @var $form yii\bootstrap\ActiveForm */
 
 /* @var $model Petroglyph */
+/* @var $providerImage PetroglyphImage[] */
+/* @var $providerThreeD PetroglyphThreeD[] */
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use common\models\Petroglyph;
 use common\models\PetroglyphImage;
+use common\models\PetroglyphThreeD;
 use yii\grid\GridView;
 
-$this->title = $model->name;
+$name = 'name_' . Yii::$app->language;
+$this->title = $model->$name;
 $this->params['breadcrumbs'] = [
-    ['label' => 'Управление контентом', 'url' => ['/manager/index']],
-    ['label' => 'Петроглиф', 'url' => ['/manager/petroglyph']],
+    ['label' => Yii::t('manager', 'Management'), 'url' => ['/manager/index']],
+    ['label' => Yii::t('manager', 'Petroglyph'), 'url' => ['/manager/petroglyph']],
     $this->title,
 ];
 ?>
@@ -22,14 +26,14 @@ $this->params['breadcrumbs'] = [
     <h1><?= Html::encode($this->title) ?></h1>
 
     <div class="clearfix">
-        <?= Html::a('Просмотр', ['petroglyph/view', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('manager', 'View'), ['petroglyph/view', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
         <div class="pull-right">
-            <?= Html::a('Редактировать', ['manager/petroglyph-update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a(Yii::t('manager', 'Edit'), ['manager/petroglyph-update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
             <?php if (empty($model->deleted)): ?>
-                <?= Html::a('Удалить', ['manager/petroglyph-delete', 'id' => $model->id], [
+                <?= Html::a(Yii::t('manager', 'Delete'), ['manager/petroglyph-delete', 'id' => $model->id], [
                     'class' => 'btn btn-danger',
                     'data' => [
-                        'confirm' => 'Вы действительно хотите удалить?',
+                        'confirm' => Yii::t('manager', 'Do you really want to delete?'),
                         'method' => 'post',
                     ],
                 ]) ?>
@@ -46,6 +50,9 @@ $this->params['breadcrumbs'] = [
         'id',
         'name',
         'name_en',
+        'lat',
+        'lng',
+        'index',
         [
             'attribute' => 'culture_id',
             'format' => 'text',
@@ -71,7 +78,7 @@ $this->params['breadcrumbs'] = [
             'attribute' => 'public',
             'format' => 'text',
             'value' => function ($model) {
-                return $model->public ? 'Опубликован' : 'Скрыт';
+                return $model->public ? Yii::t('manager', 'Public') : Yii::t('manager', 'Hide');
             }
         ],
         [
@@ -80,6 +87,22 @@ $this->params['breadcrumbs'] = [
         ],
         [
             'attribute' => 'description_en',
+            'format' => 'html',
+        ],
+        [
+            'attribute' => 'technical_description',
+            'format' => 'html',
+        ],
+        [
+            'attribute' => 'technical_description_en',
+            'format' => 'html',
+        ],
+        [
+            'attribute' => 'publication',
+            'format' => 'html',
+        ],
+        [
+            'attribute' => 'publication_en',
             'format' => 'html',
         ],
         [
@@ -96,10 +119,10 @@ $this->params['breadcrumbs'] = [
 
     <div class="clearfix"></div>
 
-    <h3>Дополнительные изображения</h3>
+    <h3><?= Yii::t('manager', 'Additional Images') ?></h3>
 
     <div class="text-right">
-        <?= Html::a('Добавить изображение', ['manager/petroglyph-image-create', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('manager', 'Add Image'), ['manager/petroglyph-image-create', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
     </div>
 
     <br>
@@ -107,7 +130,7 @@ $this->params['breadcrumbs'] = [
     <div class="clearfix"></div>
 
 <?= GridView::widget([
-    'dataProvider' => $provider,
+    'dataProvider' => $providerImage,
     'columns' => [
         'id',
         'name',
@@ -138,7 +161,56 @@ $this->params['breadcrumbs'] = [
                         ['manager/petroglyph-image-delete', 'id' => $model->id],
                         [
                             'data-pjax' => "0",
-                            'data-confirm' => "Вы уверены, что хотите удалить этот элемент?",
+                            'data-confirm' => Yii::t('manager', 'Do you really want to delete?'),
+                            'data-method' => "post"
+                        ]);
+                }
+            ],
+        ],
+    ],
+]) ?>
+
+    <br>
+
+    <div class="clearfix"></div>
+
+    <h3><?= Yii::t('manager', '3D Model') ?></h3>
+
+    <div class="text-right">
+        <?= Html::a(Yii::t('manager', 'Add 3D model'), ['manager/petroglyph-three-d-create', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+    </div>
+
+    <br>
+
+    <div class="clearfix"></div>
+
+<?= GridView::widget([
+    'dataProvider' => $providerThreeD,
+    'columns' => [
+        'id',
+        'name',
+        'url',
+        [
+            'class' => 'backend\grid\ActionColumn',
+            'options' => ['style' => 'width: 100px;'],
+            'buttons' => [
+                'view' => function ($url, $model) {
+                    return \yii\helpers\Html::a(
+                        '<span class="fas fa-eye"></span>',
+                        ['manager/petroglyph-three-d-view', 'id' => $model->id]);
+                },
+                'update' => function ($url, $model) {
+                    return \yii\helpers\Html::a(
+                        '<span class="fas fa-edit"></span>',
+                        ['manager/petroglyph-three-d-update', 'id' => $model->id]);
+                },
+                'delete' => function ($url, $model) {
+                    return \yii\helpers\Html::a(
+                        '<span class="fas fa-trash"></span>',
+                        ['manager/petroglyph-three-d-delete', 'id' => $model->id],
+                        [
+                            'data-pjax' => "0",
+                            'data-confirm' => Yii::t('manager', 'Do you really want to delete?'),
                             'data-method' => "post"
                         ]);
                 }

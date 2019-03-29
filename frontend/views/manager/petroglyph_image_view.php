@@ -12,8 +12,8 @@ use yii\grid\GridView;
 
 $this->title = $model->name;
 $this->params['breadcrumbs'] = [
-    ['label' => 'Управление контентом', 'url' => ['/manager/index']],
-    ['label' => 'Петроглиф', 'url' => ['/manager/petroglyph']],
+    ['label' => Yii::t('manager', 'Management'), 'url' => ['/manager/index']],
+    ['label' => Yii::t('manager', 'Petroglyph'), 'url' => ['/manager/petroglyph']],
     ['label' => $model->petroglyph->name, 'url' => ['/manager/petroglyph-view', 'id' => $model->petroglyph->id]],
     $this->title,
 ];
@@ -23,12 +23,12 @@ $this->params['breadcrumbs'] = [
 
 
     <div class="text-right">
-        <?= Html::a('Редактировать', ['manager/petroglyph-image-update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('manager', 'Edit'), ['manager/petroglyph-image-update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?php if (empty($model->deleted)): ?>
-            <?= Html::a('Удалить', ['manager/petroglyph-image-delete', 'id' => $model->id], [
+            <?= Html::a(Yii::t('manager', 'Delete'), ['manager/petroglyph-image-delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
                 'data' => [
-                    'confirm' => 'Вы действительно хотите удалить?',
+                    'confirm' => Yii::t('manager', 'Do you really want to delete?'),
                     'method' => 'post',
                 ],
             ]) ?>

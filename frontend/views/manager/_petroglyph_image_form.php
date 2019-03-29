@@ -48,7 +48,7 @@ use mihaildev\ckeditor\CKEditor;
         </div>
         <div class="col-xs-12 col-md-6 text-right">
             <div class="form-group">
-                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'required' => true]) ?>
+                <?= Html::submitButton(Yii::t('manager', 'Save'), ['class' => 'btn btn-primary', 'required' => true]) ?>
             </div>
         </div>
     </div>

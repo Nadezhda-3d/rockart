@@ -16,8 +16,8 @@ function initMap() {
     map = new google.maps.Map(document.getElementById('map_canvas'), {
         center: map_center,
         zoom: zoom,
-        mapTypeId: type_id
-
+        mapTypeId: type_id,
+        gestureHandling: 'greedy'
     });
 
     imageMapType = new google.maps.ImageMapType(
@@ -71,14 +71,15 @@ function initialize_markers(arr) {
         //открывает infowindows при наведении курсора мыши
         marker.addListener('mouseover', (function (marker, infowindow, info) {
             return function () {
-                var img_str = info["image"] != null ? '<div class="div-infowindow"><img class="img-infowindow" src="' + info["image"] + '"></div>' : ""
+                var img_str = info["image"] != null ? '<div class="infowindow-petroglyph"><img class="img-responsive" src="' + info["image"] + '"></div>' : ""
                 infowindow.setContent('<p>' + info["name"] + '</p>' + img_str);
                 infowindow.open(map, marker);
+                console.log(infowindow);
             }
         })(marker, infowindow, arr[i]));
         marker.addListener('mousedown', (function (marker, infowindow, info) {
             return function () {
-                var img_str = info["image"] != null ? '<div class="div-infowindow"><img class="img-infowindow" src="' + info["image"] + '"></div>' : ""
+                var img_str = info["image"] != null ? '<div class="infowindow-petroglyph"><img class="img-responsive" src="' + info["image"] + '"></div>' : ""
                 infowindow.setContent('<p>' + info["name"] + '</p>' + img_str);
                 infowindow.open(map, marker);
             }
@@ -91,14 +92,14 @@ function initialize_markers(arr) {
         })(marker, infowindow));
         marker.addListener('click', (function (marker, infowindow, info) {
             return function () {
-                window.location.href = "petroglyph/" + info['id'];
+                window.location.href = "/petroglyph/" + info['id'];
             }
         })(marker, infowindow, arr[i]));
     }
 
     var markerClusterer = new MarkerClusterer(map, markers,
         {
-            imagePath: '/assets/js/markerclusterer/images/m',
+            imagePath: '/js/map/markerclusterer/images/m',
             maxZoom: 17,
             gridSize: 20,
             styles: null

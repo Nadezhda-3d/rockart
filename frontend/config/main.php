@@ -71,5 +71,4 @@ return [
     ],
     'params' => $params,
     'language' => 'en',
-    'name' => 'RockArt',
 ];

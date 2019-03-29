@@ -54,20 +54,6 @@ class m190212_091932_create_petroglyph_image_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey(
-            'fk-petroglyph_image-epoch',
-            'petroglyph_image'
-        );
-
-        $this->dropForeignKey(
-            'fk-petroglyph_image-culture',
-            'petroglyph_image'
-        );
-
-        $this->dropForeignKey(
-            'fk-petroglyph_image-method',
-            'petroglyph_image'
-        );
 
         $this->dropForeignKey(
             'fk-petroglyph_image_language-petroglyph_image',

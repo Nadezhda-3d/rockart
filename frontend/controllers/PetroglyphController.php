@@ -13,6 +13,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\HttpException;
 
 /**
  * Class PetroglyphController
@@ -36,6 +37,9 @@ class PetroglyphController extends BaseController
 
         $provider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 15,
+            ],
         ]);
 
         return $this->render('index', [
@@ -53,8 +57,26 @@ class PetroglyphController extends BaseController
 
         $petroglyph = $query->one();
 
+        if (empty($petroglyph)) {
+            throw new HttpException(404);
+        }
+
+        $array_petroglyphs[] = [
+            'id' => $petroglyph->id,
+            'name' => $petroglyph->name,
+            'lat' => $petroglyph->lat,
+            'lng' => $petroglyph->lng,
+            'image' => Petroglyph::SRC_IMAGE . '/' . $petroglyph->thumbnailImage,
+        ];
+
+        $json_petroglyphs = json_encode($array_petroglyphs, JSON_UNESCAPED_UNICODE);
+
+        $mapProvider = Yii::$app->request->get('mapProvider') == 'yandex' ? 'yandex' : 'google';
+
         return $this->render('view', [
+            'json_petroglyphs' => $json_petroglyphs,
             'petroglyph' => $petroglyph,
+            'mapProvider' => $mapProvider,
         ]);
     }
 }

@@ -4,6 +4,7 @@ namespace common\models;
 
 use omgdef\multilingual\MultilingualBehavior;
 use omgdef\multilingual\MultilingualQuery;
+use thamtech\uuid\helpers\UuidHelper;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\data\ActiveDataProvider;
@@ -30,15 +31,22 @@ use Imagine\Image\Box;
  * @property int $created_at
  * @property int $updated_at
  *
+ * @property string $index
+ *
  * @property string $name
  * @property string $name_en
  * @property string $description
  * @property string $description_en
+ * @property string $publication
+ * @property string $publication_en
+ * @property string $technical_description
+ * @property string $technical_description_en
  *
  * @property Culture $culture
  * @property Epoch $epoch
  * @property Method $method
  * @property PetroglyphImage[] $images
+ * @property PetroglyphThreeD[] $threeD
  * @property string $thumbnailImage
  */
 class Petroglyph extends \yii\db\ActiveRecord
@@ -67,7 +75,7 @@ class Petroglyph extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'name_en'], 'required'],
-            [['name', 'name_en', 'description', 'description_en'], 'string'],
+            [['name', 'name_en', 'description', 'description_en', 'index', 'technical_description', 'publication'], 'string'],
             [['lat', 'lng', 'orientation_x', 'orientation_y', 'orientation_z'], 'number'],
             [['method_id', 'culture_id', 'epoch_id', 'deleted', 'public'], 'integer'],
             [['uuid'], 'string', 'max' => 64],
@@ -106,6 +114,8 @@ class Petroglyph extends \yii\db\ActiveRecord
                 'attributes' => [
                     'name',
                     'description',
+                    'publication',
+                    'technical_description',
                 ]
             ],
             TimestampBehavior::className(),
@@ -118,18 +128,23 @@ class Petroglyph extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'name' => 'Название',
-            'name_en' => 'Название на английском',
-            'description' => 'Описание',
-            'description_en' => 'Описание на английском',
-            'lat' => 'Широта',
-            'lng' => 'Долгота',
-            'image' => 'Изображение',
-            'fileImage' => 'Изображение',
-            'method_id' => 'Метод',
-            'culture_id' => 'Культура',
-            'epoch_id' => 'Эпоха',
-            'public' => 'Публичный доступ',
+            'name' => Yii::t('model', 'Name in Russian'),
+            'name_en' => Yii::t('model', 'Name in English'),
+            'description' => Yii::t('model', 'Description in Russian'),
+            'description_en' => Yii::t('model', 'Description in English'),
+            'lat' => Yii::t('model', 'Latitude'),
+            'lng' => Yii::t('model', 'Longitude'),
+            'image' => Yii::t('model', 'Image'),
+            'fileImage' => Yii::t('model', 'Image'),
+            'method_id' => Yii::t('model', 'Method'),
+            'culture_id' => Yii::t('model', 'Culture'),
+            'epoch_id' => Yii::t('model', 'Epoch'),
+            'public' => Yii::t('model', 'Published'),
+            'index' => Yii::t('model', 'Index'),
+            'technical_description' => Yii::t('model', 'Technical description'),
+            'technical_description_en' => Yii::t('model', 'Technical description in English'),
+            'publication' => Yii::t('model', 'Publication'),
+            'publication_en' => Yii::t('model', 'Publication in English'),
         ];
     }
 
@@ -163,6 +178,14 @@ class Petroglyph extends \yii\db\ActiveRecord
     public function getImages()
     {
         return $this->hasMany(PetroglyphImage::className(), ['petroglyph_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getThreeD()
+    {
+        return $this->hasMany(PetroglyphThreeD::className(), ['petroglyph_id' => 'id']);
     }
 
     /**
@@ -268,5 +291,13 @@ class Petroglyph extends \yii\db\ActiveRecord
         $this->load($params);
 
         return $dataProvider;
+    }
+
+    public function beforeSave($insert)
+    {
+        if (empty($this->uuid)) {
+            $this->uuid = UuidHelper::uuid();
+        }
+        return parent::beforeSave($insert);
     }
 }

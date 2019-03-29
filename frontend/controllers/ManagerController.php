@@ -7,6 +7,7 @@ use common\models\Epoch;
 use common\models\Method;
 use common\models\Petroglyph;
 use common\models\PetroglyphImage;
+use common\models\PetroglyphThreeD;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -394,7 +395,7 @@ class ManagerController extends Controller
      */
     public function actionPetroglyph()
     {
-        $query = Petroglyph::find();
+        $query = Petroglyph::find()->orderBy(['created_at' => SORT_DESC]);
 
         if (!\Yii::$app->request->get('showDeleted')) {
             $query->where(['deleted' => null]);
@@ -456,9 +457,18 @@ class ManagerController extends Controller
             throw new HttpException(500);
         }
 
-        $query = PetroglyphImage::find();
+        $query = PetroglyphImage::find()->where(['petroglyph_id' => $model->id]);
 
-        $provider = new ActiveDataProvider([
+        $providerImage = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 12,
+            ],
+        ]);
+
+        $query = PetroglyphThreeD::find()->where(['petroglyph_id' => $model->id]);
+
+        $providerThreeD = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
                 'pageSize' => 12,
@@ -467,7 +477,8 @@ class ManagerController extends Controller
 
         return $this->render('petroglyph_view', [
             'model' => $model,
-            'provider' => $provider,
+            'providerImage' => $providerImage,
+            'providerThreeD' => $providerThreeD,
         ]);
     }
 
@@ -630,6 +641,105 @@ class ManagerController extends Controller
     public function actionPetroglyphImageDelete($id)
     {
         $model = PetroglyphImage::findOne($id);
+
+        if (empty($model)) {
+            throw new HttpException(500);
+        }
+
+        $petroglyph = $model->petroglyph;
+        $model->delete();
+
+        return $this->redirect(['manager/petroglyph-view', 'id' => $petroglyph->id]);
+    }
+
+    /**
+     * @return string|\yii\web\Response
+     * @throws \yii\base\Exception
+     */
+    public function actionPetroglyphThreeDCreate($id)
+    {
+        $model = new PetroglyphThreeD();
+
+        $petroglyph = Petroglyph::findOne($id);
+
+        if (empty($petroglyph)) {
+            throw new HttpException(500);
+        }
+
+        if ($model->load(\Yii::$app->request->post())) {
+            if ($model->save()) {
+                \Yii::$app->session->setFlash('success', "Данные внесены");
+
+                return $this->redirect(['manager/petroglyph-view', 'id' => $petroglyph->id]);
+            }
+
+            \Yii::$app->session->setFlash('error', "Не удалось сохранить изменения<br>" . print_r($model->errors, true));
+        }
+
+        return $this->render('petroglyph_three_d_create', [
+            'model' => $model,
+            'petroglyph' => $petroglyph,
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @return string
+     * @throws HttpException
+     */
+    public function actionPetroglyphThreeDView($id)
+    {
+        $model = PetroglyphThreeD::find()->multilingual()->where(['id' => $id])->one();
+
+        if (empty($model)) {
+            throw new HttpException(500);
+        }
+
+        return $this->render('petroglyph_three_d_view', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws HttpException
+     */
+    public function actionPetroglyphThreeDUpdate($id)
+    {
+        $model = PetroglyphThreeD::find()->multilingual()->where(['id' => $id])->one();
+
+        if (empty($model)) {
+            throw new HttpException(500);
+        }
+
+        if ($model->load(\Yii::$app->request->post())) {
+
+            if ($model->save()) {
+                \Yii::$app->session->setFlash('success', "Данные внесены");
+
+                return $this->redirect(['manager/petroglyph-three-d-view', 'id' => $model->id]);
+            }
+
+            \Yii::$app->session->setFlash('error', "Не удалось сохранить изменения<br>" . print_r($model->errors, true));
+        }
+
+
+        return $this->render('petroglyph_three_d_update', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     * @throws HttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionPetroglyphThreeDDelete($id)
+    {
+        $model = PetroglyphThreeD::findOne($id);
 
         if (empty($model)) {
             throw new HttpException(500);
