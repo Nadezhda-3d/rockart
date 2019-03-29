@@ -4,11 +4,14 @@
 /* @var $form yii\bootstrap\ActiveForm */
 
 /* @var $model Petroglyph */
+/* @var $providerImage PetroglyphImage[] */
+/* @var $providerThreeD PetroglyphThreeD[] */
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use common\models\Petroglyph;
 use common\models\PetroglyphImage;
+use common\models\PetroglyphThreeD;
 use yii\grid\GridView;
 
 $name = 'name_' . Yii::$app->language;
@@ -47,6 +50,10 @@ $this->params['breadcrumbs'] = [
         'id',
         'name',
         'name_en',
+        'lat',
+        'lng',
+        'index',
+        'technical_description',
         [
             'attribute' => 'culture_id',
             'format' => 'text',
@@ -84,6 +91,14 @@ $this->params['breadcrumbs'] = [
             'format' => 'html',
         ],
         [
+            'attribute' => 'publication',
+            'format' => 'html',
+        ],
+        [
+            'attribute' => 'publication_en',
+            'format' => 'html',
+        ],
+        [
             'attribute' => 'image',
             'format' => 'html',
             'value' => function ($model) {
@@ -108,7 +123,7 @@ $this->params['breadcrumbs'] = [
     <div class="clearfix"></div>
 
 <?= GridView::widget([
-    'dataProvider' => $provider,
+    'dataProvider' => $providerImage,
     'columns' => [
         'id',
         'name',
@@ -137,6 +152,55 @@ $this->params['breadcrumbs'] = [
                     return \yii\helpers\Html::a(
                         '<span class="fas fa-trash"></span>',
                         ['manager/petroglyph-image-delete', 'id' => $model->id],
+                        [
+                            'data-pjax' => "0",
+                            'data-confirm' => Yii::t('manager', 'Do you really want to delete?'),
+                            'data-method' => "post"
+                        ]);
+                }
+            ],
+        ],
+    ],
+]) ?>
+
+    <br>
+
+    <div class="clearfix"></div>
+
+    <h3><?= Yii::t('manager', '3D Model') ?></h3>
+
+    <div class="text-right">
+        <?= Html::a(Yii::t('manager', 'Add 3D model'), ['manager/petroglyph-three-d-create', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+    </div>
+
+    <br>
+
+    <div class="clearfix"></div>
+
+<?= GridView::widget([
+    'dataProvider' => $providerThreeD,
+    'columns' => [
+        'id',
+        'name',
+        'url',
+        [
+            'class' => 'backend\grid\ActionColumn',
+            'options' => ['style' => 'width: 100px;'],
+            'buttons' => [
+                'view' => function ($url, $model) {
+                    return \yii\helpers\Html::a(
+                        '<span class="fas fa-eye"></span>',
+                        ['manager/petroglyph-three-d-view', 'id' => $model->id]);
+                },
+                'update' => function ($url, $model) {
+                    return \yii\helpers\Html::a(
+                        '<span class="fas fa-edit"></span>',
+                        ['manager/petroglyph-three-d-update', 'id' => $model->id]);
+                },
+                'delete' => function ($url, $model) {
+                    return \yii\helpers\Html::a(
+                        '<span class="fas fa-trash"></span>',
+                        ['manager/petroglyph-three-d-delete', 'id' => $model->id],
                         [
                             'data-pjax' => "0",
                             'data-confirm' => Yii::t('manager', 'Do you really want to delete?'),

@@ -31,15 +31,21 @@ use Imagine\Image\Box;
  * @property int $created_at
  * @property int $updated_at
  *
+ * @property string $index
+ * @property string $technical_description
+ *
  * @property string $name
  * @property string $name_en
  * @property string $description
  * @property string $description_en
+ * @property string $publication
+ * @property string $publication_en
  *
  * @property Culture $culture
  * @property Epoch $epoch
  * @property Method $method
  * @property PetroglyphImage[] $images
+ * @property PetroglyphThreeD[] $threeD
  * @property string $thumbnailImage
  */
 class Petroglyph extends \yii\db\ActiveRecord
@@ -68,7 +74,7 @@ class Petroglyph extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'name_en'], 'required'],
-            [['name', 'name_en', 'description', 'description_en'], 'string'],
+            [['name', 'name_en', 'description', 'description_en', 'index', 'technical_description', 'publication'], 'string'],
             [['lat', 'lng', 'orientation_x', 'orientation_y', 'orientation_z'], 'number'],
             [['method_id', 'culture_id', 'epoch_id', 'deleted', 'public'], 'integer'],
             [['uuid'], 'string', 'max' => 64],
@@ -107,6 +113,7 @@ class Petroglyph extends \yii\db\ActiveRecord
                 'attributes' => [
                     'name',
                     'description',
+                    'publication',
                 ]
             ],
             TimestampBehavior::className(),
@@ -131,6 +138,10 @@ class Petroglyph extends \yii\db\ActiveRecord
             'culture_id' => Yii::t('model', 'Culture'),
             'epoch_id' => Yii::t('model', 'Epoch'),
             'public' => Yii::t('model', 'Published'),
+            'index' => Yii::t('model', 'Index'),
+            'technical_description' => Yii::t('model', 'Technical description'),
+            'publication' => Yii::t('model', 'Publication'),
+            'publication_en' => Yii::t('model', 'Publication in English'),
         ];
     }
 
@@ -164,6 +175,14 @@ class Petroglyph extends \yii\db\ActiveRecord
     public function getImages()
     {
         return $this->hasMany(PetroglyphImage::className(), ['petroglyph_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getThreeD()
+    {
+        return $this->hasMany(PetroglyphThreeD::className(), ['petroglyph_id' => 'id']);
     }
 
     /**
