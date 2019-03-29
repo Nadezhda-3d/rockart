@@ -32,7 +32,6 @@ use Imagine\Image\Box;
  * @property int $updated_at
  *
  * @property string $index
- * @property string $technical_description
  *
  * @property string $name
  * @property string $name_en
@@ -40,6 +39,8 @@ use Imagine\Image\Box;
  * @property string $description_en
  * @property string $publication
  * @property string $publication_en
+ * @property string $technical_description
+ * @property string $technical_description_en
  *
  * @property Culture $culture
  * @property Epoch $epoch
@@ -114,6 +115,7 @@ class Petroglyph extends \yii\db\ActiveRecord
                     'name',
                     'description',
                     'publication',
+                    'technical_description',
                 ]
             ],
             TimestampBehavior::className(),
@@ -140,6 +142,7 @@ class Petroglyph extends \yii\db\ActiveRecord
             'public' => Yii::t('model', 'Published'),
             'index' => Yii::t('model', 'Index'),
             'technical_description' => Yii::t('model', 'Technical description'),
+            'technical_description_en' => Yii::t('model', 'Technical description in English'),
             'publication' => Yii::t('model', 'Publication'),
             'publication_en' => Yii::t('model', 'Publication in English'),
         ];
