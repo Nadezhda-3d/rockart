@@ -45,7 +45,17 @@ use mihaildev\ckeditor\CKEditor;
             <?= $form->field($model, 'public')->checkbox() ?>
             <?= $form->field($model, 'fileImage')->fileInput() ?>
             <?= $form->field($model, 'index') ?>
-            <?= $form->field($model, 'technical_description')->textarea(['row' => 5]) ?>
+            <?= $form->field($model, 'technical_description')->widget(CKEditor::className(),
+                [
+                    'editorOptions' => [
+                        'preset' => 'standard',
+                        'inline' => false,
+                    ],
+                    'options' => [
+                        'allowedContent' => true,
+                    ],
+
+                ]) ?>
             <?= $form->field($model, 'publication')->widget(CKEditor::className(),
                 [
                     'editorOptions' => [
