@@ -56,6 +56,17 @@ use mihaildev\ckeditor\CKEditor;
                     ],
 
                 ]) ?>
+            <?= $form->field($model, 'technical_description_en')->widget(CKEditor::className(),
+                [
+                    'editorOptions' => [
+                        'preset' => 'standard',
+                        'inline' => false,
+                    ],
+                    'options' => [
+                        'allowedContent' => true,
+                    ],
+
+                ]) ?>
             <?= $form->field($model, 'publication')->widget(CKEditor::className(),
                 [
                     'editorOptions' => [

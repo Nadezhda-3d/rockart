@@ -13,7 +13,7 @@ class m190328_103059_update_petroglyph_table extends Migration
     public function safeUp()
     {
         $this->addColumn('petroglyph', 'index', $this->string());
-        $this->addColumn('petroglyph', 'technical_description', $this->text());
+        $this->addColumn('petroglyph_language', 'technical_description', $this->text());
         $this->addColumn('petroglyph_language', 'publication', $this->text());
     }
 

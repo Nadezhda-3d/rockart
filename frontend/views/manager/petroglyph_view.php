@@ -53,7 +53,6 @@ $this->params['breadcrumbs'] = [
         'lat',
         'lng',
         'index',
-        'technical_description',
         [
             'attribute' => 'culture_id',
             'format' => 'text',
@@ -88,6 +87,14 @@ $this->params['breadcrumbs'] = [
         ],
         [
             'attribute' => 'description_en',
+            'format' => 'html',
+        ],
+        [
+            'attribute' => 'technical_description',
+            'format' => 'html',
+        ],
+        [
+            'attribute' => 'technical_description_en',
             'format' => 'html',
         ],
         [
