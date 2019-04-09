@@ -23,7 +23,7 @@ class m190328_103059_update_petroglyph_table extends Migration
     public function safeDown()
     {
         $this->dropColumn('petroglyph_language', 'publication');
-        $this->dropColumn('petroglyph', 'technical_description');
+        $this->dropColumn('petroglyph_language', 'technical_description');
         $this->dropColumn('petroglyph', 'index');
     }
 

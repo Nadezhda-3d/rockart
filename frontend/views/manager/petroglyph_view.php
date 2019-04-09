@@ -4,12 +4,14 @@
 /* @var $form yii\bootstrap\ActiveForm */
 
 /* @var $model Petroglyph */
+/* @var $providerComposition PetroglyphComposition[] */
 /* @var $providerImage PetroglyphImage[] */
 /* @var $providerThreeD PetroglyphThreeD[] */
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use common\models\Petroglyph;
+use common\models\Composition;
 use common\models\PetroglyphImage;
 use common\models\PetroglyphThreeD;
 use yii\grid\GridView;
@@ -111,6 +113,60 @@ $this->params['breadcrumbs'] = [
             'value' => function ($model) {
                 return empty($model->image) ? null : Html::img(Petroglyph::SRC_IMAGE . '/' . $model->thumbnailImage);
             }
+        ],
+    ],
+]) ?>
+
+    <br>
+
+    <div class="clearfix"></div>
+
+    <h3><?= Yii::t('manager', 'Compositions') ?></h3>
+
+    <div class="text-right">
+        <?= Html::a(Yii::t('manager', 'Add Composition'), ['manager/composition-create', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+    </div>
+    <br>
+
+    <div class="clearfix"></div>
+
+<?= GridView::widget([
+    'dataProvider' => $providerComposition,
+    'columns' => [
+        'id',
+        'index',
+        [
+            'attribute' => 'image',
+            'format' => 'html',
+            'value' => function ($model) {
+                return empty($model->image) ? null : Html::img(Composition::SRC_IMAGE . '/' . $model->thumbnailImage, ['width' => 100]);
+            }
+        ],
+        [
+            'class' => 'backend\grid\ActionColumn',
+            'options' => ['style' => 'width: 100px;'],
+            'buttons' => [
+                'view' => function ($url, $model) {
+                    return \yii\helpers\Html::a(
+                        '<span class="fas fa-eye"></span>',
+                        ['manager/composition-view', 'id' => $model->id]);
+                },
+                'update' => function ($url, $model) {
+                    return \yii\helpers\Html::a(
+                        '<span class="fas fa-edit"></span>',
+                        ['manager/composition-update', 'id' => $model->id]);
+                },
+                'delete' => function ($url, $model) {
+                    return \yii\helpers\Html::a(
+                        '<span class="fas fa-trash"></span>',
+                        ['manager/composition-delete', 'id' => $model->id],
+                        [
+                            'data-pjax' => "0",
+                            'data-confirm' => Yii::t('manager', 'Do you really want to delete?'),
+                            'data-method' => "post"
+                        ]);
+                }
+            ],
         ],
     ],
 ]) ?>

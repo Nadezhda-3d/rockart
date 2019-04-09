@@ -8,6 +8,9 @@ use common\models\Method;
 use common\models\Petroglyph;
 use common\models\PetroglyphImage;
 use common\models\PetroglyphThreeD;
+use common\models\Archsite;
+use common\models\Composition;
+
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -419,6 +422,8 @@ class ManagerController extends Controller
     {
         $model = new Petroglyph();
 
+        $archsites = ArrayHelper::map(Archsite::find()->all(), 'id', 'name');
+
         $cultures = ArrayHelper::map(Culture::find()->all(), 'id', 'name');
         $epochs = ArrayHelper::map(Epoch::find()->all(), 'id', 'name');
         $methods = ArrayHelper::map(Method::find()->all(), 'id', 'name');
@@ -438,6 +443,7 @@ class ManagerController extends Controller
 
         return $this->render('petroglyph_create', [
             'model' => $model,
+            'archsites' => $archsites,
             'cultures' => $cultures,
             'epochs' => $epochs,
             'methods' => $methods,
@@ -456,6 +462,15 @@ class ManagerController extends Controller
         if (empty($model)) {
             throw new HttpException(500);
         }
+
+        $query = Composition::find()->where(['petroglyph_id' => $model->id]);
+
+        $providerComposition = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 12,
+            ],
+        ]);
 
         $query = PetroglyphImage::find()->where(['petroglyph_id' => $model->id]);
 
@@ -477,6 +492,7 @@ class ManagerController extends Controller
 
         return $this->render('petroglyph_view', [
             'model' => $model,
+            'providerComposition' => $providerComposition,
             'providerImage' => $providerImage,
             'providerThreeD' => $providerThreeD,
         ]);
@@ -490,6 +506,8 @@ class ManagerController extends Controller
     public function actionPetroglyphUpdate($id)
     {
         $model = Petroglyph::find()->multilingual()->where(['id' => $id])->one();
+
+        $archsites = ArrayHelper::map(Archsite::find()->all(), 'id', 'name');
 
         $cultures = ArrayHelper::map(Culture::find()->all(), 'id', 'name');
         $epochs = ArrayHelper::map(Epoch::find()->all(), 'id', 'name');
@@ -515,6 +533,7 @@ class ManagerController extends Controller
 
         return $this->render('petroglyph_update', [
             'model' => $model,
+            'archsites' => $archsites,
             'cultures' => $cultures,
             'epochs' => $epochs,
             'methods' => $methods,
@@ -750,4 +769,201 @@ class ManagerController extends Controller
 
         return $this->redirect(['manager/petroglyph-view', 'id' => $petroglyph->id]);
     }
+
+    /**
+     * @return string
+     */
+    public function actionArchsite()
+    {
+        $archsites = Archsite::find()->orderBy(['id' => SORT_DESC])->all();
+
+        return $this->render('archsite_list', ['archsites' => $archsites]);
+    }
+
+    /**
+     * @return string|\yii\web\Response
+     * @throws \yii\base\Exception
+     */
+    public function actionArchsiteCreate()
+    {
+        $model = new Archsite();
+
+        if ($model->load(\Yii::$app->request->post())) {
+
+            if ($model->save()) {
+                $model->fileImage = UploadedFile::getInstance($model, 'fileImage');
+                $model->upload();
+                \Yii::$app->session->setFlash('success', "Данные внесены");
+
+                return $this->redirect(['manager/archsite-update', 'id' => $model->id]);
+            }
+
+            \Yii::$app->session->setFlash('error', "Не удалось сохранить изменения<br>" . print_r($model->errors, true));
+        }
+
+        return $this->render('archsite_create', [
+            'model' => $model
+        ]);
+    }
+
+    /**
+     * @return string|\yii\web\Response
+     * @throws \yii\base\Exception
+     */
+    public function actionArchsiteUpdate($id)
+    {
+        $model = Archsite::find()->multilingual()->where(['id' => $id])->one();
+
+        if (empty($model)) {
+            throw new HttpException(500);
+        }
+
+        if ($model->load(\Yii::$app->request->post())) {
+            $model->fileImage = UploadedFile::getInstance($model, 'fileImage');
+
+            if ($model->save()) {
+                $model->upload();
+                \Yii::$app->session->setFlash('success', "Данные внесены");
+
+                return $this->refresh();
+            }
+
+            \Yii::$app->session->setFlash('error', "Не удалось сохранить изменения<br>" . print_r($model->errors, true));
+        }
+
+
+        return $this->render('archsite_update', [
+            'model' => $model
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     * @throws HttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionArchsiteDelete($id)
+    {
+        $model = Archsite::findOne($id);
+
+        if (empty($model)) {
+            throw new HttpException(500);
+        }
+
+        $model->delete();
+
+        return $this->redirect(['manager/archsite']);
+    }
+
+    /**
+     * @return string
+     */
+    public function actionComposition()
+    {
+        $compositions = Composition::find()->orderBy(['id' => SORT_DESC])->all();
+
+        return $this->render('composition_list', ['compositions' => $compositions]);
+    }
+
+    /**
+     * @param $id
+     * @return string
+     * @throws HttpException
+     */
+    public function actionCompositionView($id)
+    {
+        $model = Composition::find()->multilingual()->where(['id' => $id])->one();
+
+        if (empty($model)) {
+            throw new HttpException(500);
+        }
+
+        return $this->render('composition_view', [
+            'model' => $model,
+        ]);
+    }
+    /**
+     * @return string|\yii\web\Response
+     * @throws \yii\base\Exception
+     */
+    public function actionCompositionCreate($id)
+    {
+        $model = new Composition();
+        $petroglyph = Petroglyph::findOne($id);
+
+        if (empty($petroglyph)) {
+            throw new HttpException(500);
+        }
+        if ($model->load(\Yii::$app->request->post())) {
+
+            if ($model->save()) {
+                $model->fileImage = UploadedFile::getInstance($model, 'fileImage');
+                $model->upload();
+                \Yii::$app->session->setFlash('success', "Данные внесены");
+
+                return $this->redirect(['manager/composition-update', 'id' => $model->id]);
+            }
+
+            \Yii::$app->session->setFlash('error', "Не удалось сохранить изменения<br>" . print_r($model->errors, true));
+        }
+
+        return $this->render('composition_create', [
+            'model' => $model,
+            'petroglyph' => $petroglyph,
+        ]);
+    }
+
+    /**
+     * @return string|\yii\web\Response
+     * @throws \yii\base\Exception
+     */
+    public function actionCompositionUpdate($id)
+    {
+        $model = Composition::find()->multilingual()->where(['id' => $id])->one();
+
+        if (empty($model)) {
+            throw new HttpException(500);
+        }
+
+        if ($model->load(\Yii::$app->request->post())) {
+            $model->fileImage = UploadedFile::getInstance($model, 'fileImage');
+
+            if ($model->save()) {
+                $model->upload();
+                \Yii::$app->session->setFlash('success', "Данные внесены");
+
+                return $this->refresh();
+            }
+
+            \Yii::$app->session->setFlash('error', "Не удалось сохранить изменения<br>" . print_r($model->errors, true));
+        }
+
+
+        return $this->render('composition_update', [
+            'model' => $model
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     * @throws HttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionCompositionDelete($id)
+    {
+        $model = Composition::findOne($id);
+
+        if (empty($model)) {
+            throw new HttpException(500);
+        }
+
+        $model->delete();
+
+        return $this->redirect(['manager/composition']);
+    }
+
 }

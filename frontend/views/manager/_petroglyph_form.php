@@ -13,6 +13,7 @@ use mihaildev\ckeditor\CKEditor;
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
         <div class="col-xs-12 col-md-6">
+            <?= $form->field($model, 'archsite_id')->dropDownList($archsites, ['prompt'=>Yii::t('manager', 'Select...')]) ?>
             <?= $form->field($model, 'name') ?>
             <?= $form->field($model, 'name_en') ?>
             <?= $form->field($model, 'description')->widget(CKEditor::className(),
