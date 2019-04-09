@@ -7,6 +7,7 @@
 
 use common\models\Petroglyph;
 use common\models\PetroglyphImage;
+use common\models\Composition;
 use yii\helpers\Html;
 
 $this->title = $petroglyph->name;
@@ -114,11 +115,12 @@ if (Yii::$app->user->can('manager')) {
     </h1>
 
     <?php if (!empty($petroglyph->index)): ?>
-        <?= Yii::t('app', 'Index') . ': ' . $petroglyph->index ?>
+       <h3><?= Yii::t('app', 'Index') . ': ' . $petroglyph->index ?></h3>
     <?php endif; ?>
-
+    <?php if (!empty($petroglyph->description)): ?>
+    <h3><?= Yii::t('app', 'Description') ?></h3>
     <?= $petroglyph->description ?>
-
+    <?php endif; ?>
     <?php if (!empty($petroglyph->technical_description)): ?>
         <h3><?= Yii::t('app', 'Technical description') ?></h3>
         <?= $petroglyph->technical_description ?>
@@ -157,6 +159,26 @@ if (Yii::$app->user->can('manager')) {
 
 <?php endif; ?>
 
+<?php if (!empty($petroglyph->compositions)): ?>
+
+    <div class="clearfix"></div>
+
+    <h3><?= Yii::t('app', 'Compositions') ?></h3>
+    <div class="row images">
+        <?php foreach ($petroglyph->compositions as $item): ?>
+            <div class="col-xs-6 col-sm-4 col-md-3">
+                <div class="image">
+                    <?= Html::a(Html::img(Composition::SRC_IMAGE . '/' . $item->thumbnailImage, [
+                        'class' => 'img-responsive img-thumbnail'
+                    ]), ['composition/view', 'id' => $item->id], [
+                        'rel' => 'compositions'
+                    ]); ?>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
 <?php if (!empty($petroglyph->images)): ?>
 
     <div class="clearfix"></div>
@@ -177,7 +199,7 @@ if (Yii::$app->user->can('manager')) {
     </div>
 <?php endif; ?>
 
-<?php if (!empty($petroglyph->threeD)): ?>
+<?php if (!empty($petroglyph->threeD)):?>
 
     <div class="clearfix"></div>
 

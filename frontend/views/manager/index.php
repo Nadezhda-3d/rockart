@@ -23,4 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <li class="list-group-item">
         <?= Html::a(Yii::t('manager', 'Petroglyph'), ['manager/petroglyph']) ?>
     </li>
+    <li class="list-group-item">
+        <?= Html::a(Yii::t('manager', 'Archsite'), ['manager/archsite']) ?>
+    </li>
 </ul>

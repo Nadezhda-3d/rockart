@@ -19,6 +19,7 @@ $this->params['breadcrumbs'] = [
 
 <?= $this->render('_petroglyph_form', [
     'model' => $model,
+    'archsites' => $archsites,
     'cultures' => $cultures,
     'epochs' => $epochs,
     'methods' => $methods,
