@@ -41,6 +41,7 @@ AppAsset::register($this);
 
     $menuItems = [
         ['label' => Yii::t('app', 'Petroglyphs'), 'url' => ['petroglyph/index']],
+        ['label' => Yii::t('app', 'Archsites'), 'url' => ['archsite/index']]
     ];
     ?>
 

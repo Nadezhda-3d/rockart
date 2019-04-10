@@ -26,6 +26,7 @@ use Imagine\Image\Box;
  * @property int $method_id
  * @property int $culture_id
  * @property int $epoch_id
+ * @property int $archsite_id
  * @property int $deleted
  * @property int $public
  * @property int $created_at
@@ -47,6 +48,7 @@ use Imagine\Image\Box;
  * @property Method $method
  * @property PetroglyphImage[] $images
  * @property PetroglyphThreeD[] $threeD
+ * @property Composition[] $compositions
  * @property string $thumbnailImage
  */
 class Petroglyph extends \yii\db\ActiveRecord
@@ -83,6 +85,7 @@ class Petroglyph extends \yii\db\ActiveRecord
             [['culture_id'], 'exist', 'skipOnError' => true, 'targetClass' => Culture::className(), 'targetAttribute' => ['culture_id' => 'id']],
             [['epoch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Epoch::className(), 'targetAttribute' => ['epoch_id' => 'id']],
             [['method_id'], 'exist', 'skipOnError' => true, 'targetClass' => Method::className(), 'targetAttribute' => ['method_id' => 'id']],
+            [['archsite_id'], 'exist', 'skipOnError' => true, 'targetClass' => Archsite::className(), 'targetAttribute' => ['archsite_id' => 'id']],
             [['fileImage'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif'],
         ];
     }
@@ -139,6 +142,7 @@ class Petroglyph extends \yii\db\ActiveRecord
             'method_id' => Yii::t('model', 'Method'),
             'culture_id' => Yii::t('model', 'Culture'),
             'epoch_id' => Yii::t('model', 'Epoch'),
+            'archsite_id' => Yii::t('model', 'Archsite'),
             'public' => Yii::t('model', 'Published'),
             'index' => Yii::t('model', 'Index'),
             'technical_description' => Yii::t('model', 'Technical description'),
@@ -175,6 +179,13 @@ class Petroglyph extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getArchsite()
+    {
+        return $this->hasOne(Archsite::className(), ['id' => 'archsite_id']);
+    }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getImages()
     {
         return $this->hasMany(PetroglyphImage::className(), ['petroglyph_id' => 'id']);
@@ -186,6 +197,14 @@ class Petroglyph extends \yii\db\ActiveRecord
     public function getThreeD()
     {
         return $this->hasMany(PetroglyphThreeD::className(), ['petroglyph_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCompositions()
+    {
+        return $this->hasMany(Composition::className(), ['petroglyph_id' => 'id']);
     }
 
     /**

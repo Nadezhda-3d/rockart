@@ -1,0 +1,1 @@
+<?phpuse yii\helpers\Url;use yii\helpers\Html;use common\models\Composition;?><a href="<?= Url::to(['petroglyph/view', 'id' => $model->id]) ?>" class="composition-item">    <div class="row">        <?= Html::img(Composition::SRC_IMAGE . '/' . $model->thumbnailImage, ['class' => 'img-responsive']) ?>    </div>    <h3>        <?= $model->name ?>    </h3></a>
