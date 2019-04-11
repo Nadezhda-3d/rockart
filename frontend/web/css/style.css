@@ -32,5 +32,8 @@ body {
 @media (min-width: 769px) and (max-width: 991px) {
   .container {
     width: 100%; } }
+@media (min-width: 992px) and (max-width: 1200px) {
+  .container {
+    width: 100%; } }
 
 /*# sourceMappingURL=style.css.map */

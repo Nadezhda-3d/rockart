@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `{{%drawing}}`.
  */
-class m190404_062001_create_drawing_table extends Migration
+class m190409_101853_create_drawing_table extends Migration
 {
     /**
      * {@inheritdoc}

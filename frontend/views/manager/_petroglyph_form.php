@@ -43,6 +43,7 @@ use mihaildev\ckeditor\CKEditor;
             <?= $form->field($model, 'method_id')->dropDownList($methods, ['prompt'=>Yii::t('manager', 'Select...')]) ?>
             <?= $form->field($model, 'culture_id')->dropDownList($cultures, ['prompt'=>Yii::t('manager', 'Select...')]) ?>
             <?= $form->field($model, 'epoch_id')->dropDownList($epochs, ['prompt'=>Yii::t('manager', 'Select...')]) ?>
+            <?= $form->field($model, 'style_id')->dropDownList($styles, ['prompt'=>Yii::t('manager', 'Select...')]) ?>
             <?= $form->field($model, 'public')->checkbox() ?>
             <?= $form->field($model, 'fileImage')->fileInput() ?>
             <?= $form->field($model, 'index') ?>

@@ -85,6 +85,7 @@ class Petroglyph extends \yii\db\ActiveRecord
             [['culture_id'], 'exist', 'skipOnError' => true, 'targetClass' => Culture::className(), 'targetAttribute' => ['culture_id' => 'id']],
             [['epoch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Epoch::className(), 'targetAttribute' => ['epoch_id' => 'id']],
             [['method_id'], 'exist', 'skipOnError' => true, 'targetClass' => Method::className(), 'targetAttribute' => ['method_id' => 'id']],
+            [['style_id'], 'exist', 'skipOnError' => true, 'targetClass' => Style::className(), 'targetAttribute' => ['style_id' => 'id']],
             [['archsite_id'], 'exist', 'skipOnError' => true, 'targetClass' => Archsite::className(), 'targetAttribute' => ['archsite_id' => 'id']],
             [['fileImage'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif'],
         ];
@@ -140,6 +141,7 @@ class Petroglyph extends \yii\db\ActiveRecord
             'image' => Yii::t('model', 'Image'),
             'fileImage' => Yii::t('model', 'Image'),
             'method_id' => Yii::t('model', 'Method'),
+            'style_id' => Yii::t('model', 'Style'),
             'culture_id' => Yii::t('model', 'Culture'),
             'epoch_id' => Yii::t('model', 'Epoch'),
             'archsite_id' => Yii::t('model', 'Archsite'),
@@ -174,6 +176,14 @@ class Petroglyph extends \yii\db\ActiveRecord
     public function getMethod()
     {
         return $this->hasOne(Method::className(), ['id' => 'method_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStyle()
+    {
+        return $this->hasOne(Style::className(), ['id' => 'style_id']);
     }
 
     /**
