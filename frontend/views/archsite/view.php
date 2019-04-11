@@ -29,8 +29,8 @@ $(document).ready(function () {
 
 JS;
 
-$this->registerJsFile('/js/masonry.pkgd.min.js', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
-$this->registerJsFile('/js/imagesloaded.pkgd.min.js', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
+$this->registerJsFile('/js/masonry/masonry.pkgd.min.js', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
+$this->registerJsFile('/js/masonry/imagesloaded.pkgd.min.js', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
 $this->registerJs($script, yii\web\View::POS_READY);
 $this->registerCssFile('css/archsite.css?201902191707', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
 ?>
@@ -89,6 +89,10 @@ $this->registerCssFile('css/archsite.css?201902191707', ['depends' => ['yii\boot
     <h1><?= Html::encode($archsite->name) ?></h1>
     <?= $archsite->description ?>
 <?php endif; ?>
+<?php if (!empty($archsite->publication)): ?>
+    <h3><?= Yii::t('app', 'Publications') ?></h3>
+    <?= $archsite->publication ?>
+<?php endif; ?>
 
 <div class="clearfix"></div>
 
@@ -112,9 +116,4 @@ $this->registerCssFile('css/archsite.css?201902191707', ['depends' => ['yii\boot
             </div>
         <?php endforeach; ?>
     </div>
-<?php endif; ?>
-
-<?php if (!empty($archsite->publication)): ?>
-    <h3><?= Yii::t('app', 'Publications') ?></h3>
-    <?= $archsite->publication ?>
 <?php endif; ?>
