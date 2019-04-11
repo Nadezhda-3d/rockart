@@ -2,11 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use mihaildev\ckeditor\CKEditor;
-use common\models\Culture;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Culture */
+/* @var $model common\models\Method */
 /* @var $form ActiveForm */
 ?>
 <div class="manager-_method_form">

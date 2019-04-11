@@ -61,15 +61,25 @@ class PetroglyphController extends BaseController
             throw new HttpException(404);
         }
 
-        $array_petroglyphs[] = [
-            'id' => $petroglyph->id,
-            'name' => $petroglyph->name,
-            'lat' => $petroglyph->lat,
-            'lng' => $petroglyph->lng,
-            'image' => Petroglyph::SRC_IMAGE . '/' . $petroglyph->thumbnailImage,
-        ];
-
-        $json_petroglyphs = json_encode($array_petroglyphs, JSON_UNESCAPED_UNICODE);
+        $json_petroglyphs = null;
+        $inherit_coords = '';
+        if (!$petroglyph->lat || !$petroglyph->lng){
+            if ($petroglyph->archsite->lat && $petroglyph->archsite->lng){
+                $petroglyph->lat = $petroglyph->archsite->lat;
+                $petroglyph->lng = $petroglyph->archsite->lng;
+                $inherit_coords = 'archsite';
+            }
+        }
+        if ($petroglyph->lat && $petroglyph->lng) {
+            $array_petroglyphs[] = [
+                'id' => $petroglyph->id,
+                'name' => $petroglyph->name,
+                'lat' => $petroglyph->lat,
+                'lng' => $petroglyph->lng,
+                'image' => Petroglyph::SRC_IMAGE . '/' . $petroglyph->thumbnailImage,
+            ];
+            $json_petroglyphs = json_encode($array_petroglyphs, JSON_UNESCAPED_UNICODE);
+        }
 
         $mapProvider = Yii::$app->request->get('mapProvider') == 'yandex' ? 'yandex' : 'google';
 
@@ -77,6 +87,7 @@ class PetroglyphController extends BaseController
             'json_petroglyphs' => $json_petroglyphs,
             'petroglyph' => $petroglyph,
             'mapProvider' => $mapProvider,
+            'inherit_coords' => $inherit_coords,
         ]);
     }
 }

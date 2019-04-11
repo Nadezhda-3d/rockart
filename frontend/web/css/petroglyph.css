@@ -9,9 +9,9 @@
     border: solid 2px #7288e1; }
 
 .poster {
-  margin-right: 20px;
+  /*  margin-right: 20px; */
   margin-bottom: 15px;
-  max-width: 50%; }
+  /*  max-width: 50%; */ }
 
 a.three-d {
   display: flex;
@@ -21,7 +21,7 @@ a.three-d {
   align-content: center;
   justify-content: center;
   width: 100%;
-  height: 200px;
+  /*  height: 200px; */
   color: #000;
   text-decoration: none;
   border: solid 2px #e1e1e1; }
@@ -35,10 +35,6 @@ a.three-d {
   left: -40% !important; }
 
 @media (max-width: 768px) {
-  .poster {
-    margin-right: 0;
-    max-width: 100%; } }
-@media (min-width: 769px) and (max-width: 991px) {
   .poster {
     margin-right: 0;
     max-width: 100%; } }

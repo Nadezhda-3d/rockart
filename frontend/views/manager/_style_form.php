@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Culture */
+/* @var $model common\models\Style */
 /* @var $form ActiveForm */
 ?>
-<div class="manager-_culture_form">
+<div class="manager-_style_form">
 
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
@@ -23,4 +23,4 @@ use yii\widgets\ActiveForm;
     </div>
     <?php ActiveForm::end(); ?>
 
-</div><!-- manager-_culture_form -->
+</div><!-- manager-_style_form -->

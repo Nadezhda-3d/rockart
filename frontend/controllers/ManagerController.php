@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use common\models\Culture;
 use common\models\Epoch;
 use common\models\Method;
+use common\models\Style;
 use common\models\Petroglyph;
 use common\models\PetroglyphImage;
 use common\models\PetroglyphThreeD;
@@ -396,6 +397,117 @@ class ManagerController extends Controller
     /**
      * @return string
      */
+    public function actionStyle()
+    {
+        $query = Style::find();
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 12,
+            ],
+        ]);
+
+        return $this->render('style_list', ['provider' => $provider]);
+    }
+
+    /**
+     * @return string|\yii\web\Response
+     */
+    public function actionStyleCreate()
+    {
+        $model = new Style();
+
+        if ($model->load(\Yii::$app->request->post())) {
+
+            if ($model->save()) {
+                \Yii::$app->session->setFlash('success', "Данные внесены");
+
+                return $this->redirect(['manager/style-view', 'id' => $model->id]);
+            }
+
+            \Yii::$app->session->setFlash('error', "Не удалось сохранить изменения<br>" . print_r($model->errors, true));
+        }
+
+        return $this->render('style_create', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @return string
+     * @throws HttpException
+     */
+    public function actionStyleView($id)
+    {
+        $model = Style::find()->multilingual()->where(['id' => $id])->one();
+
+        if (empty($model)) {
+            throw new HttpException(500);
+        }
+
+        return $this->render('style_view', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws HttpException
+     */
+    public function actionStyleUpdate($id)
+    {
+        $model = Style::find()->multilingual()->where(['id' => $id])->one();
+
+        if (empty($model)) {
+            throw new HttpException(500);
+        }
+
+        if ($model->load(\Yii::$app->request->post())) {
+
+            if ($model->save()) {
+                \Yii::$app->session->setFlash('success', "Данные внесены");
+
+                return $this->refresh();
+            }
+
+            \Yii::$app->session->setFlash('error', "Не удалось сохранить изменения<br>" . print_r($model->errors, true));
+        }
+
+
+        return $this->render('style_update', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     * @throws HttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionStyleDelete($id)
+    {
+        $model = Style::findOne($id);
+
+        if (empty($model)) {
+            throw new HttpException(500);
+        }
+
+        if (empty($model->petroglyphs)) {
+            $model->delete();
+        } else {
+            \Yii::$app->session->setFlash('error', 'Невозможно удалить, так как к нему использвется в петроглифах');
+        }
+
+        return $this->redirect(['manager/style']);
+    }
+
+    /**
+     * @return string
+     */
     public function actionPetroglyph()
     {
         $query = Petroglyph::find()->orderBy(['created_at' => SORT_DESC]);
@@ -427,6 +539,7 @@ class ManagerController extends Controller
         $cultures = ArrayHelper::map(Culture::find()->all(), 'id', 'name');
         $epochs = ArrayHelper::map(Epoch::find()->all(), 'id', 'name');
         $methods = ArrayHelper::map(Method::find()->all(), 'id', 'name');
+        $styles = ArrayHelper::map(Style::find()->all(), 'id', 'name');
 
         if ($model->load(\Yii::$app->request->post())) {
 
@@ -447,6 +560,7 @@ class ManagerController extends Controller
             'cultures' => $cultures,
             'epochs' => $epochs,
             'methods' => $methods,
+            'styles' => $styles,
         ]);
     }
 
@@ -512,6 +626,7 @@ class ManagerController extends Controller
         $cultures = ArrayHelper::map(Culture::find()->all(), 'id', 'name');
         $epochs = ArrayHelper::map(Epoch::find()->all(), 'id', 'name');
         $methods = ArrayHelper::map(Method::find()->all(), 'id', 'name');
+        $styles = ArrayHelper::map(Style::find()->all(), 'id', 'name');
 
         if (empty($model)) {
             throw new HttpException(500);
@@ -537,6 +652,7 @@ class ManagerController extends Controller
             'cultures' => $cultures,
             'epochs' => $epochs,
             'methods' => $methods,
+            'styles' => $styles,
         ]);
     }
 

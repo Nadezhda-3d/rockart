@@ -77,6 +77,13 @@ $this->params['breadcrumbs'] = [
             }
         ],
         [
+            'attribute' => 'style_id',
+            'format' => 'text',
+            'value' => function ($model) {
+                return isset($model->style) ? $model->style->name : null;
+            }
+        ],
+        [
             'attribute' => 'public',
             'format' => 'text',
             'value' => function ($model) {

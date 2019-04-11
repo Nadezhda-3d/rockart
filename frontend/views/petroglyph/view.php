@@ -18,9 +18,10 @@ $this->params['breadcrumbs'] = [
 
 $this->registerCssFile('css/petroglyph.css', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
 
-$mdCol = Yii::$app->user->can('manager') ? 3 : 4;
+//$mdCol = Yii::$app->user->can('manager') ? 3 : 4;
 
-$script = <<< JS
+if ($json_petroglyphs) {
+    $script = <<< JS
 
     var arr = $json_petroglyphs,
         map_center = '{"lat": ' + parseFloat(arr[0].lat) + ', "lng": ' + parseFloat(arr[0].lng) + '}',
@@ -33,27 +34,28 @@ $script = <<< JS
     
 JS;
 
-$this->registerJs($script, yii\web\View::POS_BEGIN);
+    $this->registerJs($script, yii\web\View::POS_BEGIN);
 
-$script = <<< JS
+    $script = <<< JS
         
      $('[data-toggle="tooltip"]').tooltip();
 
 JS;
 
-$this->registerJs($script, yii\web\View::POS_READY);
+    $this->registerJs($script, yii\web\View::POS_READY);
 
-if (Yii::$app->user->can('manager')) {
-    $this->registerJsFile('/js/map/jquery.cookie.js', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
+    if (Yii::$app->user->can('manager')) {
+        $this->registerJsFile('/js/map/jquery.cookie.js', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
 
-    if ($mapProvider == 'yandex') {
-        $this->registerJsFile('https://api-maps.yandex.ru/2.1/?lang=' . (Yii::$app->language == 'ru' ? 'ru_RU' : 'en_US') . '&mode=debug', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
-        $this->registerJsFile('/js/map/tiler-converter.js', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
-        $this->registerJsFile('/js/map/map_yandex.js', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
-    } else {
-        $this->registerJsFile('/js/map/markerclusterer/src/markerclusterer.js', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
-        $this->registerJsFile('/js/map/map.js', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
-        $this->registerJsFile('https://maps.googleapis.com/maps/api/js?key=AIzaSyCeYhPhJAnwj95GXDg5BRT7Q2dTj303dQU&callback=initMap&language=' . Yii::$app->language, ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
+        if ($mapProvider == 'yandex') {
+            $this->registerJsFile('https://api-maps.yandex.ru/2.1/?lang=' . (Yii::$app->language == 'ru' ? 'ru_RU' : 'en_US') . '&mode=debug', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
+            $this->registerJsFile('/js/map/tiler-converter.js', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
+            $this->registerJsFile('/js/map/map_yandex.js', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
+        } else {
+            $this->registerJsFile('/js/map/markerclusterer/src/markerclusterer.js', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
+            $this->registerJsFile('/js/map/map.js', ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
+            $this->registerJsFile('https://maps.googleapis.com/maps/api/js?key=AIzaSyCeYhPhJAnwj95GXDg5BRT7Q2dTj303dQU&callback=initMap&language=' . Yii::$app->language, ['depends' => ['yii\bootstrap\BootstrapPluginAsset']]);
+        }
     }
 }
 ?>
@@ -92,20 +94,30 @@ if (Yii::$app->user->can('manager')) {
     ]
 ]) ?>
 
-<?php if (empty($petroglyph->image)): ?>
-    <?php if (Yii::$app->user->can('manager')): ?>
-        <?= Html::a(Yii::t('app', 'Edit'), ['manager/petroglyph-update', 'id' => $petroglyph->id], ['class' => 'btn btn-primary pull-right']) ?>
-    <?php endif; ?>
-    <h1><?= Html::encode($petroglyph->name) ?></h1>
-    <?= $petroglyph->description ?>
-<?php else: ?>
-    <div class="pull-left poster">
+    <div class="col-xs-12 col-sm-6 col-md-6">
+    <?php if (!empty($petroglyph->image)): ?>
+    <div class="poster">
         <?= Html::a(Html::img(Petroglyph::SRC_IMAGE . '/' . $petroglyph->thumbnailImage, [
             'class' => 'img-responsive'
         ]), Petroglyph::SRC_IMAGE . '/' . $petroglyph->image, [
             'rel' => 'petroglyphImages'
         ]); ?>
+        </div>
+    <?endif;?>
+    <?php if (!empty($petroglyph->images)): ?>
+        <?php foreach ($petroglyph->images as $item): ?>
+            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 image">
+                    <?= Html::a(Html::img(PetroglyphImage::SRC_IMAGE . '/' . $item->thumbnailImage, [
+                        'class' => 'img-responsive img-thumbnail'
+                    ]), PetroglyphImage::SRC_IMAGE . '/' . $item->file, [
+                        'rel' => 'petroglyphImages'
+                    ]); ?>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
     </div>
+    <div class="col-xs-12 col-sm-6 col-md-6">
     <?php if (Yii::$app->user->can('manager')): ?>
         <?= Html::a(Yii::t('app', 'Edit'), ['manager/petroglyph-update', 'id' => $petroglyph->id], ['class' => 'btn btn-primary pull-right']) ?>
     <?php endif; ?>
@@ -125,46 +137,82 @@ if (Yii::$app->user->can('manager')) {
         <h3><?= Yii::t('app', 'Technical description') ?></h3>
         <?= $petroglyph->technical_description ?>
     <?php endif; ?>
+    <?php if (!empty($petroglyph->publication)): ?>
 
-    <div class="clearfix"></div>
+        <div class="clearfix"></div>
+        <h3><?= Yii::t('app', 'Publications') ?></h3>
+        <?= $petroglyph->publication ?>
 
-    <div class="row">
-        <?php if (Yii::$app->user->can('manager')): ?>
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <?= $this->render('_panel', [
-                    'title' => Yii::t('app', 'Coordinates'),
+    <?php endif; ?>
+    </div>
+    <?php if (!empty($petroglyph->lat) && !empty($petroglyph->lng) && Yii::$app->user->can('manager')): ?>
+            <div class="col-xs-6 col-sm-6 col-md-3">
+                <?php
+                if (isset($inherit_coords) && $inherit_coords == 'archsite') $title = Yii::t('app', 'Coordinates (site)');
+                else  $title = Yii::t('app', 'Coordinates');
+                echo $this->render('_panel', [
+                    'title' => $title,
                     'data' => [$petroglyph->lat, $petroglyph->lng],
                 ]) ?>
             </div>
-        <?php endif; ?>
-        <div class="col-xs-12 col-sm-6 col-md-<?= $mdCol ?>">
+    <?php endif; ?>
+    <?php if (!empty($petroglyph->culture)):?>
+        <div class="col-xs-6 col-sm-6 col-md-3">
             <?= $this->render('_panel', [
                 'title' => Yii::t('app', 'Culture'),
                 'data' => [(isset($petroglyph->culture) ? $petroglyph->culture->name : null)],
             ]) ?>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-<?= $mdCol ?>">
+    <?php endif; ?>
+    <?php if (!empty($petroglyph->epoch)):?>
+        <div class="col-xs-6 col-sm-6 col-md-3">
             <?= $this->render('_panel', [
                 'title' => Yii::t('app', 'Epoch'),
                 'data' => [(isset($petroglyph->epoch) ? $petroglyph->epoch->name : null)],
             ]) ?>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-<?= $mdCol ?>">
+    <?php endif; ?>
+    <?php if (!empty($petroglyph->method)):?>
+        <div class="col-xs-6 col-sm-6 col-md-3">
             <?= $this->render('_panel', [
                 'title' => Yii::t('app', 'Method'),
                 'data' => [(isset($petroglyph->method) ? $petroglyph->method->name : null)],
             ]) ?>
         </div>
+    <?php endif; ?>
+    <?php if (!empty($petroglyph->style)):?>
+        <div class="col-xs-6 col-sm-6 col-md-3">
+            <?= $this->render('_panel', [
+                'title' => Yii::t('app', 'Style'),
+                'data' => [(isset($petroglyph->style) ? $petroglyph->style->name : null)],
+            ]) ?>
+        </div>
+    <?php endif; ?>
+    <?php if (!empty($petroglyph->threeD)):?>
+    <div class="col-xs-12 col-sm-6 col-md-6">
+        <h3><?= Yii::t('app', '3D Models') ?></h3>
+        <?php foreach ($petroglyph->threeD as $item): ?>
+            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                <?= Html::a(Html::img(str_replace("/iframe/", "/object/poster/", $item->url), [
+                    'class' => 'img-responsive img-thumbnail']), $item->url, [
+                    'class' => 'fancybox',
+                    'rel' => 'petroglyphImages',
+                    'data-fancybox-type' => 'iframe',
+                ]) ?>
+            </div>
+        <?php endforeach; ?>
     </div>
+    <?php endif; ?>
 
-<?php endif; ?>
+    <div class="clearfix"></div>
 
 <?php if (!empty($petroglyph->compositions)): ?>
 
     <div class="clearfix"></div>
-
+    <div class="col-xs-12 col-sm-12 col-md-12">
     <h3><?= Yii::t('app', 'Compositions') ?></h3>
-    <div class="row images">
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 images">
         <?php foreach ($petroglyph->compositions as $item): ?>
             <div class="col-xs-6 col-sm-4 col-md-3">
                 <div class="image">
@@ -179,45 +227,7 @@ if (Yii::$app->user->can('manager')) {
     </div>
 <?php endif; ?>
 
-<?php if (!empty($petroglyph->images)): ?>
-
-    <div class="clearfix"></div>
-
-    <h3><?= Yii::t('app', 'Additional Images') ?></h3>
-    <div class="row images">
-        <?php foreach ($petroglyph->images as $item): ?>
-            <div class="col-xs-6 col-sm-4 col-md-3">
-                <div class="image">
-                    <?= Html::a(Html::img(PetroglyphImage::SRC_IMAGE . '/' . $item->thumbnailImage, [
-                        'class' => 'img-responsive img-thumbnail'
-                    ]), PetroglyphImage::SRC_IMAGE . '/' . $item->file, [
-                        'rel' => 'petroglyphImages'
-                    ]); ?>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
-
-<?php if (!empty($petroglyph->threeD)):?>
-
-    <div class="clearfix"></div>
-
-    <h3><?= Yii::t('app', '3D Models') ?></h3>
-    <div class="row images">
-        <?php foreach ($petroglyph->threeD as $item): ?>
-            <div class="col-xs-6 col-sm-4 col-md-3">
-                <?= Html::a($item->name, $item->url, [
-                    'class' => 'three-d fancybox',
-                    'rel' => 'petroglyphImages',
-                    'data-fancybox-type' => 'iframe',
-                ]) ?>
-            </div>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
-
-<?php if (Yii::$app->user->can('manager')): ?>
+<?php if ($json_petroglyphs && Yii::$app->user->can('manager')): ?>
 
     <div class="clearfix"></div>
     <div class="pull-right hidden-xs">
@@ -234,13 +244,5 @@ if (Yii::$app->user->can('manager')) {
 
 
     <div id="map_canvas" style="width:100%; height:600px; float:left; margin-right: 20px;"></div>
-
-<?php endif; ?>
-
-<?php if (!empty($petroglyph->publication)): ?>
-
-    <div class="clearfix"></div>
-    <h3><?= Yii::t('app', 'Publications') ?></h3>
-    <?= $petroglyph->publication ?>
 
 <?php endif; ?>
