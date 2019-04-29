@@ -46,7 +46,7 @@ class MapController extends BaseController
 
         if ($r = Yii::$app->request->get('r')) {
             $query->join('LEFT JOIN', 'petroglyph_language', 'petroglyph_language.petroglyph_id = petroglyph.id')
-                ->andWhere(['like', 'name', $r])->all();
+                ->andWhere(['like', 'name', $r])->orderBy(['id' => SORT_ASC])->all();
         }
 
         $petroglyphs = $query->all();

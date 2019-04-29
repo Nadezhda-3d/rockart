@@ -29,7 +29,7 @@ class PetroglyphController extends BaseController
      */
     public function actionIndex()
     {
-        $query = Petroglyph::find()->where(['deleted' => null]);
+        $query = Petroglyph::find()->where(['deleted' => null])->orderBy(['id' => SORT_DESC]);
 
         if (!Yii::$app->user->can('manager')) {
             $query->andWhere(['public' => 1]);
