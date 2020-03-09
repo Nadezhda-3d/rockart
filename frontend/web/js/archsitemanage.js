@@ -1,26 +1,26 @@
 
 function onViewOriginal(event){
 
-    changePictures("image-origin");//, ".image-dstretch, .image-drawing, .image-reconstraction, .image-overlay");
+    changePictures("image-origin");
 }
 
-function onViewDstratch(event){
+function onViewDStretch(event){
 
-    changePictures("image-dstretch");//, ".image-origin, .image-drawing, .image-reconstraction, .image-overlay");
+    changePictures("image-dstretch");
 }
 
 function onViewDrawing(event){
 
-    changePictures("image-drawing"); //, ".image-dstretch, .image-origin, .image-reconstraction, .image-overlay");
+    changePictures("image-drawing"); 
 }
 
 function onViewReconstraction(event){
 
-    changePictures("image-reconstraction"); //, ".image-dstretch, .image-drawing, .image-origin, .image-overlay");
+    changePictures("image-reconstraction"); 
 }
-function onViewSuperimposition(event){
+function onViewOverlay(event){
 
-    changePictures("image-overlay"); //,  ".image-dstretch, .image-drawing, .image-reconstraction, .image-origin");
+    changePictures("image-overlay"); 
 }
 
 function changePictures(newImages){
@@ -47,22 +47,11 @@ function changePictures(newImages){
         }
         i++;
     }
-/*     newImages = document.getElementsByClassName(newImages);
-    while(newImages.item(i) != null){
-        newImages.item(i).style.display = 'block';
-        i++;
-    }
-    i = 0;
-    otherImages = document.querySelectorAll(otherImages);
-    while(otherImages.item(i) != null){
-        if(otherImages.item(i).style.display != 'none')
-            otherImages.item(i).style.display = 'none';
-        i++;
-    }; */
+
 }
 
 vieworigin.addEventListener("click", onViewOriginal);
-viewdstratch.addEventListener("click", onViewDstratch);
+viewdstretch.addEventListener("click", onViewDStretch);
 viewdrawing.addEventListener("click", onViewDrawing);
-viewreconstraction.addEventListener("click", onViewReconstraction);
-viewsuperimposition.addEventListener("click", onViewSuperimposition);
+viewreconstruction.addEventListener("click", onViewReconstraction);
+viewoverlay.addEventListener("click", onViewOverlay);

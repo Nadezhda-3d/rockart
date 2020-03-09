@@ -22,8 +22,8 @@ use Imagine\Image\Box;
  * @property string $image
  * @property string $im_dstretch
  * @property string $im_drawing
- * @property string $im_reconstraction
- * @property string $im_superimposition
+ * @property string $im_reconstruction
+ * @property string $im_overlay
  * @property string $orientation_x
  * @property string $orientation_y
  * @property string $orientation_z
@@ -56,8 +56,8 @@ use Imagine\Image\Box;
  * @property string $thumbnailImage
  * @property string $thumbnailImDstretch
  * @property string $thumbnailImDrawing
- * @property string $thumbnaiImReconstr
- * @property string $thumbnaiImOverlay
+ * @property string $thumbnailImReconstr
+ * @property string $thumbnailImOverlay
  */
 class Petroglyph extends \yii\db\ActiveRecord
 {
@@ -93,7 +93,7 @@ class Petroglyph extends \yii\db\ActiveRecord
             [['lat', 'lng', 'orientation_x', 'orientation_y', 'orientation_z'], 'number'],
             [['method_id', 'culture_id', 'epoch_id', 'deleted', 'public'], 'integer'],
             [['uuid'], 'string', 'max' => 64],
-            [['image', 'im_dstretch', 'im_drawing', 'im_reconstraction', 'im_superimposition'], 'string', 'max' => 255],
+            [['image', 'im_dstretch', 'im_drawing', 'im_reconstruction', 'im_overlay'], 'string', 'max' => 255],
             [['culture_id'], 'exist', 'skipOnError' => true, 'targetClass' => Culture::className(), 'targetAttribute' => ['culture_id' => 'id']],
             [['epoch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Epoch::className(), 'targetAttribute' => ['epoch_id' => 'id']],
             [['method_id'], 'exist', 'skipOnError' => true, 'targetClass' => Method::className(), 'targetAttribute' => ['method_id' => 'id']],
@@ -153,13 +153,13 @@ class Petroglyph extends \yii\db\ActiveRecord
             'image' => Yii::t('model', 'Image'),
             'im_dstretch' => Yii::t('model', 'Image in Dstretch'),
             'im_drawing' => Yii::t('model', 'Drawing image'),
-            'im_reconstraction' => Yii::t('model', 'Reconstraction image'),
-            'im_superimposition' => Yii::t('model', 'Superinposition image'),
+            'im_reconstruction' => Yii::t('model', 'Reconstruction image'),
+            'im_overlay' => Yii::t('model', 'Overlay image'),
             'fileImage' => Yii::t('model', 'Image'),
-            'fileDstr' => Yii::t('model', 'Image Dstratch'),
+            'fileDstr' => Yii::t('model', 'Image Dstretch'),
             'fileDraw' => Yii::t('model', 'Drawing image'),
-            'fileReconstr' => Yii::t('model', 'Reconstraction image'),
-            'fileOverlay' => Yii::t('model', 'Image superimposition'), 
+            'fileReconstr' => Yii::t('model', 'Reconstruction image'),
+            'fileOverlay' => Yii::t('model', 'Image overlay'), 
             'method_id' => Yii::t('model', 'Method'),
             'style_id' => Yii::t('model', 'Style'),
             'culture_id' => Yii::t('model', 'Culture'),
@@ -265,15 +265,15 @@ class Petroglyph extends \yii\db\ActiveRecord
                     'file' => $this->fileDraw,
                     'fieldName' => 'im_drawing',
                 ),
-                'Reconstraction' => array (
+                'Reconstruction' => array (
                     'fileName' => 'fileReconstr',
                     'file' => $this->fileReconstr,
-                    'fieldName' => 'im_reconstraction',
+                    'fieldName' => 'im_reconstruction',
                 ),
-                'Superimposition' => array (
+                'Overlay' => array (
                     'fileName' => 'fileOverlay',
                     'file' => $this->fileOverlay,
-                    'fieldName' => 'im_superimposition',
+                    'fieldName' => 'im_overlay',
                 ),
             );
             
@@ -369,10 +369,10 @@ class Petroglyph extends \yii\db\ActiveRecord
     {
         $path = self::basePath();
 
-        if (file_exists($path . '/' . self::THUMBNAIL_PREFIX . $this->im_reconstraction)) {
-            return self::THUMBNAIL_PREFIX . $this->im_reconstraction;
+        if (file_exists($path . '/' . self::THUMBNAIL_PREFIX . $this->im_reconstruction)) {
+            return self::THUMBNAIL_PREFIX . $this->im_reconstruction;
         } else {
-            return $this->im_reconstraction;
+            return $this->im_reconstruction;
         }
     }
 
@@ -384,10 +384,10 @@ class Petroglyph extends \yii\db\ActiveRecord
     {
         $path = self::basePath();
 
-        if (file_exists($path . '/' . self::THUMBNAIL_PREFIX . $this->im_superimposition)) {
-            return self::THUMBNAIL_PREFIX . $this->im_superimposition;
+        if (file_exists($path . '/' . self::THUMBNAIL_PREFIX . $this->im_overlay)) {
+            return self::THUMBNAIL_PREFIX . $this->im_overlay;
         } else {
-            return $this->im_superimposition;
+            return $this->im_overlay;
         }
     }
     /**
