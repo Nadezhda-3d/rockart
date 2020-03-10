@@ -2,9 +2,12 @@
 
 use yii\db\Migration;
 
-class m174023_0_update_petroglyph_table extends Migration
-{
 /**
+ * Class m200310_150608_update_petroglyph_table
+ */
+class m200310_150608_update_petroglyph_table extends Migration
+{
+    /**
      * {@inheritdoc}
      */
     public function safeUp()
