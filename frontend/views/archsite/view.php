@@ -101,10 +101,10 @@ $this->registerCssFile('css/archsite.css?201902191707', ['depends' => ['yii\boot
     <h2><?= Yii::t('app', 'Panels') ?></h2>
     <div class="form-group">
         <button type="button" id="vieworigin" class="btn btn-primary">View Origin</button>
-        <button type="button" id="viewdstratch" class="btn btn-primary">View Dstratch</button>
+        <button type="button" id="viewdstretch" class="btn btn-primary">View Dstretch</button>
         <button type="button" id="viewdrawing" class="btn btn-primary">View Drawing</button>
-        <button type="button" id="viewreconstraction" class="btn btn-primary">View Reconstraction</button>
-        <button type="button" id="viewsuperimposition" class="btn btn-primary">View Superinposition</button>
+        <button type="button" id="viewreconstruction" class="btn btn-primary">View Reconstruction</button>
+        <button type="button" id="viewoverlay" class="btn btn-primary">View Overlay</button>
     </div>
     <div class="row collection">
 
@@ -127,12 +127,12 @@ $this->registerCssFile('css/archsite.css?201902191707', ['depends' => ['yii\boot
                                     <?= Html::img(Petroglyph::SRC_IMAGE . '/' . $petroglyph->thumbnailImDrawing, ['class' => 'img-responsive']) ?>
                                 </div>
                             <?php endif; ?>
-                            <?php if (!empty($petroglyph->im_reconstraction)): ?>
-                                <div class="image-reconstraction" style="display:none">
+                            <?php if (!empty($petroglyph->im_reconstruction)): ?>
+                                <div class="image-reconstruction" style="display:none">
                                     <?= Html::img(Petroglyph::SRC_IMAGE . '/' . $petroglyph->thumbnailImReconstr, ['class' => 'img-responsive']) ?>
                                 </div>
                             <?php endif; ?>
-                            <?php if (!empty($petroglyph->im_superimposition)): ?>
+                            <?php if (!empty($petroglyph->im_overlay)): ?>
                                 <div class="image-overlay" style="display:none">
                                     <?= Html::img(Petroglyph::SRC_IMAGE . '/' . $petroglyph->thumbnailImOverlay, ['class' => 'img-responsive']) ?>
                                 </div>
