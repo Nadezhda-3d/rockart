@@ -100,11 +100,11 @@ $this->registerCssFile('css/archsite.css?201902191707', ['depends' => ['yii\boot
 <?php if (!empty($archsite->petroglyphs)): ?>
     <h2><?= Yii::t('app', 'Panels') ?></h2>
     <div class="form-group">
-        <button type="button" id="vieworigin" class="btn btn-primary">View Origin</button>
-        <button type="button" id="viewdstretch" class="btn btn-primary">View Dstretch</button>
-        <button type="button" id="viewdrawing" class="btn btn-primary">View Drawing</button>
-        <button type="button" id="viewreconstruction" class="btn btn-primary">View Reconstruction</button>
-        <button type="button" id="viewoverlay" class="btn btn-primary">View Overlay</button>
+        <button type="button" id="vieworigin" class="btn btn-primary"><?= Yii::t('manager', 'View original images')?></button>
+        <button type="button" id="viewdstretch" class="btn btn-primary"><?= Yii::t('manager', 'View images DStretch')?></button>
+        <button type="button" id="viewdrawing" class="btn btn-primary"><?= Yii::t('manager', 'View drawing')?></button>
+        <button type="button" id="viewreconstruction" class="btn btn-primary"><?= Yii::t('manager', 'View reconstruction')?></button>
+        <button type="button" id="viewoverlay" class="btn btn-primary"><?= Yii::t('manager', 'View overlay images')?></button>
     </div>
     <div class="row collection">
 

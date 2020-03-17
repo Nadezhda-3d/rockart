@@ -16,7 +16,7 @@ function onViewDrawing(event){
 
 function onViewReconstraction(event){
 
-    changePictures("image-reconstraction"); 
+    changePictures("image-reconstruction");
 }
 function onViewOverlay(event){
 
@@ -24,21 +24,21 @@ function onViewOverlay(event){
 }
 
 function changePictures(newImages){
-    i = 0;
-    petroglyphs = document.getElementsByClassName("row");
+    let i = 0;
+    let petroglyphs = document.getElementsByClassName("row");
     while(petroglyphs.item(i) !=null){
         if(petroglyphs.item(i).className != "row"){
             i++;
             continue;
         }
-        item = petroglyphs.item(i);
-        image = item.querySelector("div." + newImages) == null ? 
-                image = item.querySelector("div.image-origin"): item.querySelector("div." + newImages); 
+        let item = petroglyphs.item(i);
+        let image = item.querySelector("div." + newImages) == null ?
+                item.querySelector("div.image-origin"): item.querySelector("div." + newImages);
 
         if(image != null)
             image.style.display = 'block';
         
-        j = 0;
+        let j = 0;
         while(item.children.item(j) != null){
             if(item.children.item(j).style.display != 'none' 
                 && item.children.item(j) != image)
